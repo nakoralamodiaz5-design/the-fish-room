@@ -20,4 +20,5 @@ function delp(id){products=products.filter(p=>p.id!==id);save();render()}
 function toggle(id){const p=products.find(p=>p.id===id);p.stock=p.stock?0:1;save();render()}
 function render(){document.getElementById("nP").textContent=products.length;document.getElementById("nO").textContent=JSON.parse(localStorage.getItem("tfr_orders")||"[]").length;document.getElementById("nR").textContent=JSON.parse(localStorage.getItem("tfr_reservations")||"[]").length;document.getElementById("nS").textContent=JSON.parse(localStorage.getItem("tfr_bookings")||"[]").length;document.getElementById("rows").innerHTML=products.map(p=>`<tr><td>${p.name}</td><td>${p.category}</td><td>${p.price.toFixed(2)} €</td><td>${p.stock}</td><td><button onclick="toggle('${p.id}')">Disponible/Agotado</button> <button class="danger" onclick="delp('${p.id}')">Eliminar</button></td></tr>`).join("");const s=JSON.parse(localStorage.getItem("tfr_bookings")||"[]");document.getElementById("services").innerHTML=s.length?s.map(x=>`<div class="card"><b>${x.service}</b> · ${x.type} · ${x.date} ${x.time}<br>${x.name} · ${x.phone}<br>${x.problem||""}</div>`).join(""):"<p class='muted'>No hay solicitudes.</p>"}
 if(sessionStorage.tfrAdmin==="1")show();
-</script></body></html>
+</script><!-- Los stocks reales se introducirán desde el panel cuando se conecte la base de datos. -->
+</body></html>
