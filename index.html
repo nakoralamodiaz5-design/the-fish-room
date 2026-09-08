@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The Fish Room — peces ornamentales, plantas, acuarios, material, servicios y mantenimiento en Santa María de Guía, Gran Canaria.">
+<title>The Fish Room | Peces y acuarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#inicio">The Fish Room <span>🐟</span></a>
+  <nav class="nav">
+    <a href="#peces">Peces</a><a href="#plantas">Plantas</a><a href="#equipamiento">Material</a>
+    <a href="#servicios">Servicios</a><a href="#ofertas">Ofertas</a><a href="#contacto">Contacto</a>
+  </nav>
+  <div class="head-actions">
+    <button class="iconbtn" id="favBtn" title="Favoritos">♡ <b id="favCount">0</b></button>
+    <button class="iconbtn" id="cartBtn" title="Carrito">🛒 <b id="cartCount">0</b></button>
+    <button class="iconbtn" id="accountBtn" title="Mi cuenta">👤</button>
+  </div>
+</header>
+
+<div class="announcement">🐠 Pedidos online · 🏪 Recogida en tienda · 💬 WhatsApp · 💧 Mantenimiento a domicilio</div>
+
+<main>
+<section id="inicio" class="hero">
+  <div class="bubbles"></div>
+  <div class="hero-overlay">
+    <div class="pill">TIENDA DE ACUARIOFILIA · GRAN CANARIA</div>
+    <h1>TU MUNDO ACUÁTICO<br><em>EMPIEZA AQUÍ.</em></h1>
+    <p>Peces ornamentales, plantas, acuarios, decoración y material para crear un acuario espectacular.</p>
+    <div class="actions">
+      <a class="btn" href="#peces">🛒 Comprar ahora</a>
+      <a class="btn ghost" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20quiero%20informaci%C3%B3n." target="_blank">💬 Pedir por WhatsApp</a>
+    </div>
+    <small>📍 Calle del Médico Estévez · Santa María de Guía</small>
+  </div>
+</section>
+
+<section class="trust">
+ <div><strong>🐟 Peces seleccionados</strong><span>Stock actualizado</span></div>
+ <div><strong>🏪 Recogida en tienda</strong><span>Sin envíos por ahora</span></div>
+ <div><strong>💬 Atención 24 h</strong><span>WhatsApp · 612 412 469</span></div>
+ <div><strong>🔧 Servicios</strong><span>Montaje y mantenimiento</span></div>
+</section>
+
+<section id="peces" class="shop section">
+  <div class="section-head">
+    <div><span class="eyebrow">TIENDA ONLINE</span><h2>Peces y plantas disponibles</h2></div>
+    <div class="tools"><input id="search" placeholder="🔎 Buscar producto..."><select id="sort"><option value="featured">Destacados</option><option value="priceAsc">Precio menor</option><option value="priceDesc">Precio mayor</option><option value="name">Nombre A-Z</option></select></div>
+  </div>
+  <div class="chips" id="filters"></div>
+  <div class="products" id="products"></div>
+</section>
+
+<section id="plantas" class="category-band">
+ <div><span class="eyebrow">🌿 PLANTAS</span><h2>Plantas naturales y flotantes</h2><p>Christmas Moss, Lemna minor, Salvinia natans y nuevas variedades que iremos incorporando.</p></div>
+ <a class="btn ghost" href="#peces" data-cat="Plantas">Ver plantas</a>
+</section>
+
+<section id="equipamiento" class="equipment section">
+ <div class="section-head"><div><span class="eyebrow">EQUIPAMIENTO</span><h2>Todo para tu acuario</h2></div></div>
+ <div class="equipment-grid">
+  <div>🧰<b>Filtración</b><span>Internos, externos y mochila</span></div>
+  <div>💡<b>Iluminación</b><span>Pantallas LED y accesorios</span></div>
+  <div>🌡️<b>Temperatura</b><span>Calentadores y termómetros</span></div>
+  <div>💨<b>Aireación</b><span>Bombas, aireadores y difusores</span></div>
+  <div>🧪<b>Agua</b><span>Test, acondicionadores y tratamiento</span></div>
+  <div>🪨<b>Decoración</b><span>Rocas, raíces, cuevas y sustratos</span></div>
+  <div>🍽️<b>Alimentación</b><span>Comida para peces y estanques</span></div>
+  <div>🎏<b>Estanques</b><span>Koi, goldfish, plantas y material</span></div>
+ </div>
+</section>
+
+<section id="servicios" class="services">
+ <div class="section-head center"><span class="eyebrow">SERVICIOS PROFESIONALES</span><h2>Nos ocupamos de tu acuario</h2><p>Solicita un presupuesto gratuito o pide cita directamente.</p></div>
+ <div class="service-grid">
+  <article><div>💧</div><h3>Mantenimiento</h3><p>Limpieza, cambios de agua, revisión y seguimiento.</p><a href="#cita" data-service="Mantenimiento">Solicitar</a></article>
+  <article><div>🔧</div><h3>Montaje</h3><p>Montaje y puesta en marcha de acuarios a domicilio.</p><a href="#cita" data-service="Montaje">Solicitar</a></article>
+  <article><div>🛠️</div><h3>Reparación</h3><p>Fugas, silicona, filtros, bombas e iluminación.</p><a href="#cita" data-service="Reparación">Solicitar</a></article>
+  <article><div>🧪</div><h3>Agua y filtración</h3><p>Acondicionamiento, parámetros y mantenimiento de filtros.</p><a href="#cita" data-service="Agua y filtración">Solicitar</a></article>
+ </div>
+</section>
+
+<section id="cita" class="booking section">
+ <div class="booking-card">
+  <div><span class="eyebrow">PRESUPUESTO / CITA</span><h2>Cuéntanos qué necesitas</h2><p>Elige presupuesto gratuito o una cita. Podrás adjuntar fotos de tu acuario.</p></div>
+  <form id="bookingForm">
+   <div class="two"><label>Servicio<select id="service"><option>Mantenimiento</option><option>Montaje</option><option>Reparación</option><option>Agua y filtración</option></select></label><label>Tipo<select id="bookingType"><option>Presupuesto gratuito</option><option>Cita directamente</option></select></label></div>
+   <div class="two"><label>Fecha<input id="date" type="date" required></label><label>Hora<input id="time" type="time" required></label></div>
+   <div class="two"><label>Nombre<input id="clientName" required></label><label>Teléfono<input id="clientPhone" required></label></div>
+   <label>Dirección del servicio<input id="address" placeholder="Para servicios a domicilio"></label>
+   <label>Descripción<textarea id="problem" rows="4" placeholder="Cuéntanos qué necesitas..."></textarea></label>
+   <label>Fotos <input id="photos" type="file" accept="image/*" multiple></label>
+   <button class="btn" type="submit">Enviar solicitud</button>
+  </form>
+ </div>
+</section>
+
+<section id="ofertas" class="offer">
+ <div><span class="eyebrow">OFERTAS Y PROMOCIONES</span><h2>Promociones especiales</h2><p>Aquí podrás publicar descuentos, packs y códigos promocionales desde el panel de administración.</p></div>
+ <button class="btn" id="promoBtn">Ver promociones</button>
+</section>
+
+<section class="faq section">
+ <div class="section-head center"><span class="eyebrow">PREGUNTAS FRECUENTES</span><h2>Todo claro antes de comprar</h2></div>
+ <div class="faq-grid">
+  <details><summary>¿Cómo recibo mi pedido?</summary><p>Por ahora trabajamos con <b>recogida en tienda</b>. No ofrecemos envíos a domicilio actualmente.</p></details>
+  <details><summary>¿Puedo reservar un pez?</summary><p>Sí. Las reservas tienen una duración máxima de 24 horas y bloquean el stock durante ese periodo.</p></details>
+  <details><summary>¿Puedo pedir por WhatsApp?</summary><p>Sí. Puedes escribir al 612 412 469 desde el botón de WhatsApp de cada producto.</p></details>
+  <details><summary>¿Hacéis mantenimiento a domicilio?</summary><p>Sí. También hacemos montaje, reparación, limpieza de filtros y asesoramiento.</p></details>
+ </div>
+</section>
+
+<section class="reviews section">
+ <div class="section-head center"><span class="eyebrow">RESEÑAS</span><h2>Lo que dicen nuestros clientes</h2><p>Las reseñas reales se podrán publicar desde el panel.</p></div>
+ <div id="reviews" class="review-grid"></div>
+</section>
+
+<section id="contacto" class="contact">
+ <div><span class="eyebrow">CONTACTO</span><h2>Ven a The Fish Room</h2><p>📍 Calle del Médico Estévez, Santa María de Guía, Gran Canaria</p><p>📞 <a href="tel:612412469">612 412 469</a></p><p>📧 <a href="mailto:acuariosypeces@thefishroom.es">acuariosypeces@thefishroom.es</a></p><p>📷 <a href="https://www.instagram.com/thefishroomm/" target="_blank">@thefishroomm</a></p></div>
+ <div class="contact-box"><h3>Compra segura y atención</h3><p>🔒 Pago online preparado para conectar</p><p>📧 Confirmación de pedido por correo</p><p>💬 WhatsApp disponible</p><p>🏪 Recogida en tienda</p><a class="btn" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20quiero%20hacer%20una%20consulta." target="_blank">Escribir por WhatsApp</a></div>
+</section>
+</main>
+
+<footer><div class="brand">The Fish Room 🐟</div><div><a href="#contacto">Contacto</a> · <a href="#faq">Privacidad</a> · <a href="#contacto">Condiciones</a></div><div>© 2026 The Fish Room</div></footer>
+
+<div class="wa"><a href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20quiero%20informaci%C3%B3n." target="_blank">💬</a></div>
+
+<div id="drawer" class="drawer"><div class="drawer-card"><button class="close" onclick="closeDrawer()">✕</button><div id="drawerContent"></div></div></div>
+<script>window.SEED_PRODUCTS = [{"id": "betta-koi-hembra", "name": "Betta Koi Hembra", "category": "Bettas", "price": 25, "stock": 1, "unit": "unidad", "image": "betta-koi-hembra.webp", "description": "Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room.", "featured": true}, {"id": "guppy-variado", "name": "Guppy Variado", "category": "Guppys", "price": 3, "stock": 10, "unit": "unidad", "image": "guppy-variado.webp", "description": "Guppy variado. Disponibilidad y color según stock actual.", "featured": true}, {"id": "betta-corona", "name": "Betta Corona", "category": "Bettas", "price": 20, "stock": 1, "unit": "unidad", "image": "betta-corona.webp", "description": "Betta Corona con coloración azul y roja.", "featured": true}, {"id": "ciclidos-varios", "name": "Cíclidos Varios", "category": "Cíclidos", "price": 10, "stock": 10, "unit": "unidad", "image": "ciclidos-varios.webp", "description": "Selección de cíclidos disponibles según stock.", "featured": false}, {"id": "polar-blue", "name": "Polar Blue", "category": "Cíclidos", "price": 5, "stock": 10, "unit": "unidad", "image": "polar-blue.webp", "description": "Polar Blue para acuario de cíclidos. Consultar compatibilidad.", "featured": true}, {"id": "christmas-moss", "name": "Christmas Moss", "category": "Plantas", "price": 5, "stock": 10, "unit": "tarro", "image": "christmas-moss.webp", "description": "Christmas Moss — 5 € por tarro.", "featured": false}, {"id": "lemna-minor", "name": "Lemna minor", "category": "Plantas", "price": 2, "stock": 10, "unit": "tarrina", "image": "lemna-minor.webp", "description": "Lemna minor — 2 € por tarrina.", "featured": false}, {"id": "salvinia-natans", "name": "Salvinia natans", "category": "Plantas", "price": 3, "stock": 10, "unit": "tarrina", "image": "salvinia-natans.webp", "description": "Salvinia natans / acordeón de agua — 3 € por tarrina.", "featured": false}, {"id": "betta-rosa-hembra", "name": "Betta Rosa Hembra", "category": "Bettas", "price": 10, "stock": 1, "unit": "unidad", "image": "betta-rosa-hembra.webp", "description": "Betta rosa hembra. Ejemplar mostrado en fotografía propia.", "featured": false}];</script>
+<script src="app.js"></script>
+</body></html>
