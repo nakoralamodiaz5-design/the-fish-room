@@ -29,3 +29,8 @@
 .detail-info span{color:#a2bac1}
 .related{padding-top:50px}
 @media(max-width:800px){.product-detail{grid-template-columns:1fr}.detail-copy h1{font-size:36px}.detail-info div{grid-template-columns:1fr}}
+
+.qty{width:28px;height:28px;padding:0;border-radius:8px;background:#0b2c37;color:#fff;border:1px solid #245666;cursor:pointer}
+.drawer-summary{margin-top:20px;padding-top:15px;border-top:1px solid #1b4653}
+.drawer-summary>div{display:flex;justify-content:space-between;padding:6px 0;color:#b0c5cb;font-size:13px}
+.drawer-summary .drawer-total{padding-top:12px;margin-top:6px;font-size:19px;color:#fff}
