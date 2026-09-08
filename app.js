@@ -1,6 +1,8 @@
 const state={products:window.SEED_PRODUCTS||[],cart:JSON.parse(localStorage.getItem("tfr_cart")||"[]"),favs:JSON.parse(localStorage.getItem("tfr_favs")||"[]")};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let activeCat="Todos";
+const urlCat = new URLSearchParams(location.search).get("c");
+if (urlCat && location.pathname.endsWith("categoria.html")) activeCat = urlCat;
 
 function save(){localStorage.setItem("tfr_cart",JSON.stringify(state.cart));localStorage.setItem("tfr_favs",JSON.stringify(state.favs));}
 function stockLabel(p){if(p.status==="agotado"||p.stock<=0)return ['Agotado','off'];if(p.stock<=2)return [`Últimas ${p.stock} ${p.unit}${p.stock>1?'s':''}`,'low'];return [`En stock · ${p.stock} ${p.unit}${p.stock>1?'s':''}`,'ok'];}
