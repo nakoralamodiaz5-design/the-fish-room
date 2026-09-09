@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Finalizar pedido en The Fish Room">
+<title>Finalizar pedido | The Fish Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.checkout{max-width:1180px;margin:auto;padding:55px 5% 90px}.checkout-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px}
+.box{background:#08232e;border:1px solid #164756;border-radius:18px;padding:26px}
+.box h2{margin-top:0}.box p{color:#a6bdc4;line-height:1.6;font-size:13px}
+form{display:grid;gap:12px}label{display:grid;gap:6px;font-size:11px;color:#a8bec5}input,select,textarea{background:#06151c;color:#fff;border:1px solid #285364;border-radius:10px;padding:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.payment-option{display:flex;align-items:center;gap:10px;background:#061a22;border:1px solid #1a4756;border-radius:12px;padding:14px;cursor:pointer}
+.payment-option input{width:auto;margin:0}.pickup{background:#061a22;border:1px solid #154451;padding:15px;border-radius:12px}
+.summary-item{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #173c49;font-size:13px}.summary-total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding-top:18px}
+.notice{margin-top:15px;padding:12px;border-radius:10px;background:#082c2b;color:#8fe5b2;font-size:11px}
+@media(max-width:850px){.checkout-grid{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">The Fish Room <span>🐟</span></a>
+  <nav class="nav">
+    <a href="categoria.html?c=Bettas">Peces</a>
+    <a href="categoria.html?c=Plantas">Plantas</a>
+    <a href="categoria.html?c=Material">Material</a>
+    <a href="index.html#servicios">Servicios</a>
+    <a href="index.html#contacto">Contacto</a>
+  </nav>
+  <div class="head-actions"><a class="iconbtn" href="index.html#peces">🛒 Volver a tienda</a></div>
+</header>
+
+<main class="checkout">
+  <div class="section-head center">
+    <span class="eyebrow">FINALIZAR PEDIDO</span>
+    <h2>Recoge tu pedido en The Fish Room</h2>
+    <p>Por ahora trabajamos con recogida en tienda en Santa María de Guía.</p>
+  </div>
+
+  <div class="checkout-grid">
+    <section class="box">
+      <h2>Datos del cliente</h2>
+      <form id="checkoutForm">
+        <div class="two">
+          <label>Nombre y apellidos<input id="name" required></label>
+          <label>Teléfono<input id="phone" type="tel" required></label>
+        </div>
+        <label>Correo electrónico<input id="email" type="email" required placeholder="acuariosypeces@thefishroom.es"></label>
+        <div class="two">
+          <label>Fecha de recogida<input id="date" type="date" required></label>
+          <label>Hora aproximada<input id="time" type="time" required></label>
+        </div>
+        <div class="pickup">
+          <b>🏪 Recogida en tienda</b>
+          <p style="margin:6px 0 0">Calle del Médico Estévez · Santa María de Guía, Gran Canaria</p>
+        </div>
+        <label>Observaciones<textarea id="notes" rows="4" placeholder="Ej.: necesito el pedido preparado por la tarde..."></textarea></label>
+
+        <h2 style="margin-top:15px">Forma de pago</h2>
+        <label class="payment-option"><input type="radio" name="payment" value="card" checked> 💳 Tarjeta — pago online</label>
+        <label class="payment-option"><input type="radio" name="payment" value="paypal"> 🅿️ PayPal</label>
+        <label class="payment-option"><input type="radio" name="payment" value="bizum"> 📱 Bizum</label>
+        <label class="payment-option"><input type="radio" name="payment" value="store"> 💶 Pago al recoger en tienda</label>
+
+        <button class="btn" type="submit">Continuar con el pedido</button>
+        <div id="msg" class="notice" style="display:none"></div>
+      </form>
+    </section>
+
+    <aside class="box">
+      <h2>Resumen</h2>
+      <div id="summary"></div>
+      <div class="summary-total"><span>Total</span><span id="total">0,00 €</span></div>
+      <p style="font-size:11px">Los pagos online se conectarán en la siguiente fase con la pasarela elegida.</p>
+    </aside>
+  </div>
+</main>
+
+<script>
+const products = [{"id": "betta-koi-hembra", "name": "Betta Koi Hembra", "category": "Bettas", "price": 25, "stock": 1, "unit": "unidad", "image": "betta-koi-hembra.webp", "description": "Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room.", "featured": true}, {"id": "guppy-variado", "name": "Guppy Variado", "category": "Guppys", "price": 3, "stock": 10, "unit": "unidad", "image": "guppy-variado.webp", "description": "Guppy variado. Disponibilidad y color según stock actual.", "featured": true}, {"id": "betta-corona", "name": "Betta Corona", "category": "Bettas", "price": 20, "stock": 1, "unit": "unidad", "image": "betta-corona.webp", "description": "Betta Corona con coloración azul y roja.", "featured": true}, {"id": "ciclidos-varios", "name": "Cíclidos Varios", "category": "Cíclidos", "price": 10, "stock": 10, "unit": "unidad", "image": "ciclidos-varios.webp", "description": "Selección de cíclidos disponibles según stock.", "featured": false}, {"id": "polar-blue", "name": "Polar Blue", "category": "Cíclidos", "price": 5, "stock": 10, "unit": "unidad", "image": "polar-blue.webp", "description": "Polar Blue para acuario de cíclidos. Consultar compatibilidad.", "featured": true}, {"id": "christmas-moss", "name": "Christmas Moss", "category": "Plantas", "price": 5, "stock": 10, "unit": "tarro", "image": "christmas-moss.webp", "description": "Christmas Moss — 5 € por tarro.", "featured": false}, {"id": "lemna-minor", "name": "Lemna minor", "category": "Plantas", "price": 2, "stock": 10, "unit": "tarrina", "image": "lemna-minor.webp", "description": "Lemna minor — 2 € por tarrina.", "featured": false}, {"id": "salvinia-natans", "name": "Salvinia natans", "category": "Plantas", "price": 3, "stock": 10, "unit": "tarrina", "image": "salvinia-natans.webp", "description": "Salvinia natans / acordeón de agua — 3 € por tarrina.", "featured": false}, {"id": "betta-rosa-hembra", "name": "Betta Rosa Hembra", "category": "Bettas", "price": 10, "stock": 1, "unit": "unidad", "image": "betta-rosa-hembra.webp", "description": "Betta rosa hembra. Ejemplar mostrado en fotografía propia.", "featured": false}];
+const cart = JSON.parse(localStorage.getItem("tfr_cart")||"[]");
+const byId = id => products.find(p=>p.id===id);
+const items = cart.map(x=>({...x,p:byId(x.id)})).filter(x=>x.p);
+
+function render(){
+  const s = document.getElementById("summary");
+  let total=0;
+  s.innerHTML = items.length ? items.map(x=>{
+    total += x.qty*x.p.price;
+    return `<div class="summary-item"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2).replace(".",",")} €</b></div>`
+  }).join("") : `<div class="empty">El carrito está vacío. <a href="index.html#peces">Volver a la tienda</a></div>`;
+  document.getElementById("total").textContent = total.toFixed(2).replace(".",",")+" €";
+}
+document.getElementById("checkoutForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  if(!items.length){ alert("El carrito está vacío."); return; }
+
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+  const order = {
+    id:"TFR-"+Date.now(),
+    name:document.getElementById("name").value.trim(),
+    phone:document.getElementById("phone").value.trim(),
+    email:document.getElementById("email").value.trim(),
+    date:document.getElementById("date").value,
+    time:document.getElementById("time").value,
+    notes:document.getElementById("notes").value.trim(),
+    payment,
+    items:items.map(x=>({id:x.p.id,name:x.p.name,qty:x.qty,price:x.p.price})),
+    total:items.reduce((sum,x)=>sum+x.qty*x.p.price,0),
+    status:payment==="store"?"Pendiente de pago":"Pendiente de pago online",
+    createdAt:new Date().toISOString()
+  };
+  const orders = JSON.parse(localStorage.getItem("tfr_orders")||"[]");
+  orders.push(order);
+  localStorage.setItem("tfr_orders", JSON.stringify(orders));
+
+  const lines = order.items.map(x=>`${x.qty}x ${x.name} — ${x.price.toFixed(2)} €`).join("\\n");
+  const msg = `Nuevo pedido ${order.id}%0ACliente: ${encodeURIComponent(order.name)}%0ATeléfono: ${encodeURIComponent(order.phone)}%0AEmail: ${encodeURIComponent(order.email)}%0ARecogida: ${order.date} ${order.time}%0APago: ${encodeURIComponent(payment)}%0A%0A${encodeURIComponent(lines)}%0A%0ATotal: ${order.total.toFixed(2)} €`;
+  document.getElementById("msg").style.display="block";
+  document.getElementById("msg").innerHTML=`Pedido <b>${order.id}</b> preparado. En producción aquí se conectará el pago y el correo de confirmación.`;
+  window.open("https://wa.me/34612412469?text="+msg,"_blank");
+  localStorage.removeItem("tfr_cart");
+});
+render();
+</script>
+</body></html>
