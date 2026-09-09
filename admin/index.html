@@ -1,327 +1,43 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Administrador | The Fish Room</title>
-<link rel="stylesheet" href="../style.css">
-</head>
-<body>
-<main class="checkout">
-  <section id="loginBox" class="box" style="max-width:520px;margin:60px auto">
-    <span class="eyebrow">THE FISH ROOM</span>
-    <h2>Panel de administración</h2>
-    <p>Panel local de trabajo. Los datos se guardan en este navegador. No sustituye a una autenticación de servidor para producción.</p>
-    <form id="loginForm" class="admin-form">
-      <label>Clave de acceso<input id="adminPin" type="password" required autocomplete="current-password"></label>
-      <button class="btn" type="submit">Entrar</button>
-      <div id="loginMsg" class="admin-muted"></div>
-    </form>
-  </section>
-
-  <section id="adminApp" style="display:none">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">ADMINISTRACIÓN</span>
-        <h2 style="margin-bottom:0">The Fish Room</h2>
-      </div>
-      <div class="admin-actions">
-        <button class="btn ghost" type="button" id="backupBtn">Exportar copia</button>
-        <button class="btn ghost" type="button" id="importBtn">Importar copia</button>
-        <button class="btn ghost" type="button" id="logoutBtn">Cerrar sesión</button>
-      </div>
-    </div>
-
-    <div class="admin-grid">
-      <div class="admin-card admin-stat"><span class="admin-muted">Productos</span><b id="statProducts">0</b></div>
-      <div class="admin-card admin-stat"><span class="admin-muted">Pedidos</span><b id="statOrders">0</b></div>
-      <div class="admin-card admin-stat"><span class="admin-muted">Reservas</span><b id="statReservations">0</b></div>
-      <div class="admin-card admin-stat"><span class="admin-muted">Servicios</span><b id="statServices">0</b></div>
-    </div>
-
-    <div class="admin-nav">
-      <button class="active" data-tab="productsTab">Productos</button>
-      <button data-tab="ordersTab">Pedidos</button>
-      <button data-tab="reservationsTab">Reservas</button>
-      <button data-tab="servicesTab">Servicios</button>
-    </div>
-
-    <section id="productsTab" class="admin-section active">
-      <div class="admin-card">
-        <h2>Añadir / editar producto</h2>
-        <form id="productForm" class="admin-form">
-          <input id="editId" type="hidden">
-          <div class="admin-two">
-            <label>Nombre<input id="pName" required></label>
-            <label>Categoría<select id="pCategory"><option>Bettas</option><option>Guppys</option><option>Cíclidos</option><option>Plantas</option><option>Estanques</option><option>Acuarios</option><option>Filtración</option><option>Iluminación</option><option>Alimentación</option><option>Decoración</option><option>Accesorios</option></select></label>
-          </div>
-          <div class="admin-two">
-            <label>Precio<input id="pPrice" type="number" min="0" step="0.01" required></label>
-            <label>Stock<input id="pStock" type="number" min="0" step="1" required></label>
-          </div>
-          <div class="admin-two">
-            <label>Unidad<input id="pUnit" value="unidad"></label>
-            <label>Imagen (ruta o URL)<input id="pImage" placeholder="ej. betta-nuevo.webp"></label>
-          </div>
-          <label>Descripción<textarea id="pDescription" rows="3"></textarea></label>
-          <div class="admin-actions">
-            <button class="btn" type="submit" id="saveProductBtn">Guardar producto</button>
-            <button class="btn ghost" type="button" id="cancelEditBtn">Cancelar edición</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="admin-card" style="margin-top:18px">
-        <h2>Catálogo</h2>
-        <div style="overflow:auto">
-          <table class="admin-table">
-            <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
-            <tbody id="productsRows"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="ordersTab" class="admin-section">
-      <div class="admin-card"><h2>Pedidos</h2><div id="ordersList"></div></div>
-    </section>
-
-    <section id="reservationsTab" class="admin-section">
-      <div class="admin-card"><h2>Reservas</h2><div id="reservationsList"></div></div>
-    </section>
-
-    <section id="servicesTab" class="admin-section">
-      <div class="admin-card"><h2>Solicitudes de servicio</h2><div id="servicesList"></div></div>
-    </section>
-  </section>
-</main>
-
-<script src="../data.js"></script>
-<script>
-const ADMIN_SESSION = "tfr_admin_session";
-const ADMIN_PIN_KEY = "tfr_admin_pin";
-const DEFAULT_PIN = "2468";
-
-let products = [...(window.TFR_PRODUCTS || [])];
-
-const $ = (s) => document.querySelector(s);
-const readJson = (key) => {
-  try { return JSON.parse(localStorage.getItem(key) || "[]"); } catch { return []; }
-};
-const saveProducts = () => {
-  localStorage.setItem("tfr_products", JSON.stringify(products));
-  window.TFR_PRODUCTS = products;
-};
-
-function ensurePin() {
-  if (!localStorage.getItem(ADMIN_PIN_KEY)) localStorage.setItem(ADMIN_PIN_KEY, DEFAULT_PIN);
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Administración | The Fish Room</title><link rel="stylesheet" href="../style.css"></head><body>
+<header class="top"><a class="brand" href="../index.html">The Fish Room 🐟</a><div style="margin-left:auto"><button id="logout" class="iconbtn" style="display:none">Cerrar sesión</button></div></header>
+<main class="section">
+<section id="loginBox" class="box" style="max-width:520px;margin:60px auto"><span class="eyebrow">ADMINISTRACIÓN</span><h1>Acceso</h1><form id="loginForm"><label>Correo<input id="email" type="email" required></label><label>Contraseña<input id="password" type="password" required></label><button class="btn" type="submit">Entrar</button><p id="loginMsg" class="muted"></p></form></section>
+<section id="adminApp" style="display:none">
+<div class="section-head"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>The Fish Room</h1></div><button id="refresh" class="btn ghost">Actualizar</button></div>
+<div class="products" style="grid-template-columns:repeat(4,1fr);margin-bottom:25px"><div class="box"><b>Productos</b><div id="sProducts">0</div></div><div class="box"><b>Pedidos</b><div id="sOrders">0</div></div><div class="box"><b>Reservas</b><div id="sReservations">0</div></div><div class="box"><b>Servicios</b><div id="sServices">0</div></div></div>
+<div class="box" style="margin-bottom:20px"><h2>Añadir / editar producto</h2><form id="productForm"><input id="id" type="hidden"><div class="two"><label>Nombre<input id="name" required></label><label>Categoría<input id="category" required></label></div><div class="two"><label>Precio<input id="price" type="number" step="0.01" min="0" required></label><label>Stock<input id="stock" type="number" min="0" required></label></div><div class="two"><label>Unidad<input id="unit" value="unidad"></label><label>Imagen<input id="image"></label></div><label>Descripción<textarea id="description"></textarea></label><div><button class="btn">Guardar producto</button></div></form></div>
+<div class="box"><h2>Catálogo</h2><div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:10px">Producto</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div class="box" style="margin-top:20px"><h2>Pedidos</h2><div id="orders"></div></div>
+<div class="box" style="margin-top:20px"><h2>Reservas</h2><div id="reservations"></div></div>
+<div class="box" style="margin-top:20px"><h2>Servicios</h2><div id="services"></div></div>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../supabase-config.js"></script><script>
+const sb=window.supabase.createClient(window.TFR_SUPABASE_URL,window.TFR_SUPABASE_PUBLISHABLE_KEY);let products=[];
+async function checkAdmin(){
+ const {data:{user}}=await sb.auth.getUser();
+ if(!user){loginBox.style.display="block";adminApp.style.display="none";return false;}
+ const {data}=await sb.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();
+ if(!data){loginBox.innerHTML='<div class="eyebrow">SIN PERMISOS</div><h2>Usuario sin acceso</h2><p class="muted">Este usuario existe, pero no está en admin_users.</p>';return false;}
+ loginBox.style.display="none";adminApp.style.display="block";logout.style.display="inline-block";return true;
 }
-
-function showAdmin() {
-  $("#loginBox").style.display = "none";
-  $("#adminApp").style.display = "block";
-  renderAll();
+async function load(){
+ const [p,o,r,s]=await Promise.all([
+  sb.from("products").select("*").eq("active",true).order("name"),
+  sb.from("orders").select("*").order("created_at",{ascending:false}),
+  sb.from("reservations").select("*").order("created_at",{ascending:false}),
+  sb.from("service_requests").select("*").order("created_at",{ascending:false})
+ ]);
+ if(p.error||o.error||r.error||s.error)return alert("Error cargando datos.");
+ products=p.data||[];sProducts.textContent=products.length;sOrders.textContent=(o.data||[]).length;sReservations.textContent=(r.data||[]).length;sServices.textContent=(s.data||[]).length;
+ rows.innerHTML=products.map(x=>`<tr><td style="padding:10px">${x.name}</td><td>${Number(x.price).toFixed(2)} €</td><td>${x.stock}</td><td><button onclick="editP('${x.id}')">Editar</button><button onclick="stock0('${x.id}')">Agotar</button></td></tr>`).join("");
+ orders.innerHTML=(o.data||[]).map(x=>`<div style="padding:12px 0;border-bottom:1px solid #173c49"><b>${x.order_number}</b> · ${x.customer_name} · ${x.customer_phone}<br>${x.pickup_date} ${x.pickup_time} · ${Number(x.total).toFixed(2)} €</div>`).join("")||"No hay pedidos.";
+ reservations.innerHTML=(r.data||[]).map(x=>`<div style="padding:12px 0;border-bottom:1px solid #173c49"><b>${x.product_name}</b> · ${x.customer_name||"Sin nombre"} · ${x.status}</div>`).join("")||"No hay reservas.";
+ services.innerHTML=(s.data||[]).map(x=>`<div style="padding:12px 0;border-bottom:1px solid #173c49"><b>${x.service}</b> · ${x.customer_name} · ${x.requested_date} ${x.requested_time}</div>`).join("")||"No hay solicitudes.";
 }
-
-function login(e) {
-  e.preventDefault();
-  ensurePin();
-  const pin = $("#adminPin").value;
-  if (pin === localStorage.getItem(ADMIN_PIN_KEY)) {
-    sessionStorage.setItem(ADMIN_SESSION, "1");
-    showAdmin();
-  } else {
-    $("#loginMsg").textContent = "Clave incorrecta.";
-  }
-}
-
-function resetForm() {
-  $("#productForm").reset();
-  $("#editId").value = "";
-  $("#pUnit").value = "unidad";
-  $("#saveProductBtn").textContent = "Guardar producto";
-}
-
-function renderProducts() {
-  $("#productsRows").innerHTML = products.length ? products.map(p => `
-    <tr>
-      <td>${p.name}</td>
-      <td>${p.category}</td>
-      <td>${Number(p.price).toFixed(2)} €</td>
-      <td>${Number(p.stock || 0)}</td>
-      <td>${Number(p.stock || 0) > 0 ? "Disponible" : "Agotado"}</td>
-      <td>
-        <div class="admin-actions">
-          <button type="button" onclick="editProduct('${p.id}')">Editar</button>
-          <button type="button" onclick="toggleStock('${p.id}')">${Number(p.stock || 0) > 0 ? "Agotar" : "Reponer"}</button>
-          <button type="button" class="danger" onclick="deleteProduct('${p.id}')">Eliminar</button>
-        </div>
-      </td>
-    </tr>
-  `).join("") : '<tr><td colspan="6" class="admin-muted">No hay productos.</td></tr>';
-}
-
-function renderOrders() {
-  const orders = readJson("tfr_orders");
-  $("#ordersList").innerHTML = orders.length ? orders.slice().reverse().map(o => `
-    <div class="admin-card" style="margin-bottom:12px">
-      <b>${o.id}</b> · ${o.status || "Pendiente"}
-      <p>${o.name} · ${o.phone} · ${o.email}</p>
-      <p>Recogida: ${o.date} ${o.time}</p>
-      <p>${(o.items || []).map(i => `${i.qty} × ${i.name}`).join(" · ")} · <b>${Number(o.total).toFixed(2)} €</b></p>
-      <div class="admin-actions">
-        <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/34${String(o.phone||"").replace(/\\D/g,"")}?text=${encodeURIComponent("Hola " + (o.name||"") + ", sobre tu pedido " + o.id + " de The Fish Room.")}">WhatsApp cliente</a>
-      </div>
-    </div>
-  `).join("") : '<div class="empty">No hay pedidos todavía.</div>';
-}
-
-function renderReservations() {
-  const data = readJson("tfr_reservations");
-  $("#reservationsList").innerHTML = data.length ? data.slice().reverse().map(r => `
-    <div class="admin-card" style="margin-bottom:12px">
-      <b>${r.name || r.id}</b>
-      <p>Creada: ${r.createdAt || ""}</p>
-      <p>Caduca: ${r.expiresAt || ""}</p>
-    </div>
-  `).join("") : '<div class="empty">No hay reservas.</div>';
-}
-
-function renderServices() {
-  const data = readJson("tfr_bookings");
-  $("#servicesList").innerHTML = data.length ? data.slice().reverse().map(s => `
-    <div class="admin-card" style="margin-bottom:12px">
-      <b>${s.service}</b> · ${s.type}
-      <p>${s.date} ${s.time} · ${s.name} · ${s.phone}</p>
-      <p>${s.address || ""}</p>
-      <p>${s.problem || ""}</p>
-    </div>
-  `).join("") : '<div class="empty">No hay solicitudes.</div>';
-}
-
-function renderStats() {
-  $("#statProducts").textContent = products.length;
-  $("#statOrders").textContent = readJson("tfr_orders").length;
-  $("#statReservations").textContent = readJson("tfr_reservations").length;
-  $("#statServices").textContent = readJson("tfr_bookings").length;
-}
-
-function renderAll() {
-  renderStats();
-  renderProducts();
-  renderOrders();
-  renderReservations();
-  renderServices();
-}
-
-window.editProduct = (id) => {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  $("#editId").value = p.id;
-  $("#pName").value = p.name;
-  $("#pCategory").value = p.category;
-  $("#pPrice").value = p.price;
-  $("#pStock").value = p.stock ?? 0;
-  $("#pUnit").value = p.unit || "unidad";
-  $("#pImage").value = p.image || "";
-  $("#pDescription").value = p.description || "";
-  window.scrollTo({top:0,behavior:"smooth"});
-};
-
-window.toggleStock = (id) => {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  p.stock = Number(p.stock) > 0 ? 0 : 1;
-  saveProducts(); renderAll();
-};
-
-window.deleteProduct = (id) => {
-  if (!confirm("¿Eliminar este producto del catálogo?")) return;
-  products = products.filter(p => p.id !== id);
-  saveProducts(); renderAll();
-};
-
-$("#loginForm").addEventListener("submit", login);
-
-$("#productForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const id = $("#editId").value || "p" + Date.now();
-  const product = {
-    id,
-    name: $("#pName").value.trim(),
-    category: $("#pCategory").value,
-    price: Number($("#pPrice").value),
-    stock: Number($("#pStock").value),
-    unit: $("#pUnit").value.trim() || "unidad",
-    image: $("#pImage").value.trim(),
-    description: $("#pDescription").value.trim(),
-    featured: false
-  };
-  const existing = products.findIndex(p => p.id === id);
-  if (existing >= 0) products[existing] = product;
-  else products.push(product);
-  saveProducts();
-  resetForm();
-  renderAll();
-  alert("Producto guardado.");
-});
-
-$("#cancelEditBtn").addEventListener("click", resetForm);
-$("#logoutBtn").addEventListener("click", () => { sessionStorage.removeItem(ADMIN_SESSION); location.reload(); });
-
-document.querySelectorAll(".admin-nav button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".admin-nav button").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
-    btn.classList.add("active");
-    $("#" + btn.dataset.tab).classList.add("active");
-  });
-});
-
-$("#backupBtn").addEventListener("click", () => {
-  const backup = {
-    products,
-    orders: readJson("tfr_orders"),
-    reservations: readJson("tfr_reservations"),
-    bookings: readJson("tfr_bookings"),
-    exportedAt: new Date().toISOString()
-  };
-  const blob = new Blob([JSON.stringify(backup, null, 2)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "the-fish-room-backup.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-
-$("#importBtn").addEventListener("click", () => {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json,application/json";
-  input.onchange = () => {
-    const file = input.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        if (Array.isArray(data.products)) { products = data.products; saveProducts(); }
-        if (Array.isArray(data.orders)) localStorage.setItem("tfr_orders", JSON.stringify(data.orders));
-        if (Array.isArray(data.reservations)) localStorage.setItem("tfr_reservations", JSON.stringify(data.reservations));
-        if (Array.isArray(data.bookings)) localStorage.setItem("tfr_bookings", JSON.stringify(data.bookings));
-        renderAll();
-        alert("Copia restaurada.");
-      } catch {
-        alert("El archivo no es una copia válida de The Fish Room.");
-      }
-    };
-    reader.readAsText(file);
-  };
-  input.click();
-});
-
-ensurePin();
-if (sessionStorage.getItem(ADMIN_SESSION) === "1") showAdmin();
-</script>
-</body>
-</html>
+window.editP=(id)=>{const x=products.find(p=>p.id===id);if(!x)return;id.value=x.id;name.value=x.name;category.value=x.category;price.value=x.price;stock.value=x.stock;unit.value=x.unit||"unidad";image.value=x.image||"";description.value=x.description||"";scrollTo({top:0,behavior:"smooth"});}
+window.stock0=async(id)=>{const {error}=await sb.from("products").update({stock:0}).eq("id",id);if(error)alert(error.message);else load();}
+loginForm.addEventListener("submit",async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:password.value});if(error){loginMsg.textContent=error.message;return;}if(await checkAdmin())load();});
+logout.addEventListener("click",async()=>{await sb.auth.signOut();location.reload()});refresh.addEventListener("click",load);
+productForm.addEventListener("submit",async e=>{e.preventDefault();const payload={id:id.value||"p"+Date.now(),name:name.value.trim(),category:category.value.trim(),price:Number(price.value),stock:Number(stock.value),unit:unit.value.trim()||"unidad",image:image.value.trim(),description:description.value.trim(),active:true,featured:false};const {error}=await sb.from("products").upsert(payload);if(error)alert(error.message);else{alert("Producto guardado.");productForm.reset();id.value="";unit.value="unidad";load();}});
+(async()=>{if(await checkAdmin())load();})();
+</script></body></html>
