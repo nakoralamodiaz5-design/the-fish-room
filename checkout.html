@@ -1,129 +1,69 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Finalizar pedido en The Fish Room">
-<title>Finalizar pedido | The Fish Room</title>
-<link rel="stylesheet" href="style.css">
-<style>
-.checkout{max-width:1180px;margin:auto;padding:55px 5% 90px}.checkout-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px}.box{background:#08232e;border:1px solid #164756;border-radius:18px;padding:26px}.box h2{margin-top:0}.box p{color:#a6bdc4;line-height:1.6;font-size:13px}form{display:grid;gap:12px}label{display:grid;gap:6px;font-size:11px;color:#a8bec5}input,textarea{background:#06151c;color:#fff;border:1px solid #285364;border-radius:10px;padding:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.payment-option{display:flex;align-items:center;gap:10px;background:#061a22;border:1px solid #1a4756;border-radius:12px;padding:14px;cursor:pointer}.payment-option input{width:auto;margin:0}.pickup{background:#061a22;border:1px solid #154451;padding:15px;border-radius:12px}.summary-item{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #173c49;font-size:13px}.summary-total,.confirmation-total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding-top:18px}.confirmation{display:none;max-width:760px;margin:40px auto 0}.confirmation.show{display:block}.confirmation-id{font-size:28px;font-weight:900;margin:8px 0 18px}.confirmation-items{margin:18px 0;border-top:1px solid #173c49}.confirmation-item{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #173c49;font-size:13px}.confirmation-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.confirmation-actions .btn{flex:1;min-width:220px;text-align:center}@media(max-width:850px){.checkout-grid{grid-template-columns:1fr}.two{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header class="top">
-  <a class="brand" href="index.html">The Fish Room <span>🐟</span></a>
-  <nav class="nav"><a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Material">Material</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a></nav>
-  <div class="head-actions"><a class="iconbtn" href="index.html#peces">🛒 Volver a tienda</a></div>
-</header>
-
-<main class="checkout">
-  <div id="checkoutMain">
-    <div class="section-head center"><span class="eyebrow">FINALIZAR PEDIDO</span><h2>Recoge tu pedido en The Fish Room</h2><p>Por ahora trabajamos con recogida en tienda en Santa María de Guía.</p></div>
-    <div class="checkout-grid">
-      <section class="box">
-        <h2>Datos del cliente</h2>
-        <form id="checkoutForm">
-          <div class="two"><label>Nombre y apellidos<input id="name" required></label><label>Teléfono<input id="phone" type="tel" required></label></div>
-          <label>Correo electrónico<input id="email" type="email" required placeholder="acuariosypeces@thefishroom.es"></label>
-          <div class="two"><label>Fecha de recogida<input id="date" type="date" required></label><label>Hora aproximada<input id="time" type="time" required></label></div>
-          <div class="pickup"><b>🏪 Recogida en tienda</b><p style="margin:6px 0 0">Calle del Médico Estévez · Santa María de Guía, Gran Canaria</p></div>
-          <label>Observaciones<textarea id="notes" rows="4" placeholder="Ej.: necesito el pedido preparado por la tarde..."></textarea></label>
-          <h2 style="margin-top:15px">Forma de pago</h2>
-          <label class="payment-option"><input type="radio" name="payment" value="card" checked> 💳 Tarjeta — pago online (próximamente)</label>
-          <label class="payment-option"><input type="radio" name="payment" value="paypal"> 🅿️ PayPal (próximamente)</label>
-          <label class="payment-option"><input type="radio" name="payment" value="bizum"> 📱 Bizum (próximamente)</label>
-          <label class="payment-option"><input type="radio" name="payment" value="store"> 💶 Pago al recoger en tienda</label>
-          <button class="btn" type="submit">Confirmar pedido</button>
-        </form>
-      </section>
-      <aside class="box"><h2>Resumen</h2><div id="summary"></div><div class="summary-total"><span>Total</span><span id="total">0,00 €</span></div><p style="font-size:11px">Las opciones de pago online están preparadas para conectarse a una pasarela en una siguiente fase.</p></aside>
-    </div>
-  </div>
-
-  <section id="confirmation" class="box confirmation">
-    <span class="eyebrow">PEDIDO CREADO</span><h2>✅ Hemos preparado tu pedido</h2>
-    <div id="confirmationId" class="confirmation-id"></div>
-    <p id="confirmationText"></p>
-    <div id="confirmationItems" class="confirmation-items"></div>
-    <div class="confirmation-total"><span>Total</span><span id="confirmationTotal">0,00 €</span></div>
-    <div class="confirmation-actions">
-      <a id="whatsappOrder" class="btn" href="#" target="_blank" rel="noopener">💬 Enviar pedido por WhatsApp</a>
-      <a class="btn ghost" href="index.html">🐠 Volver a la tienda</a>
-    </div>
-  </section>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Finalizar pedido | The Fish Room</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav"><a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a></nav></header>
+<main class="checkout section"><div class="section-head center"><span class="eyebrow">FINALIZAR PEDIDO</span><h2>Recoge tu pedido en The Fish Room</h2></div>
+<div id="checkoutWrap" class="checkout-grid"><section class="box"><h2>Datos del cliente</h2><form id="checkoutForm">
+<div class="two"><label>Nombre y apellidos<input id="name" required></label><label>Teléfono<input id="phone" required></label></div>
+<label>Correo electrónico<input id="email" type="email" required></label>
+<div class="two"><label>Fecha de recogida<input id="date" type="date" required></label><label>Hora aproximada<input id="time" type="time" required></label></div>
+<div class="pickup"><b>🏪 Recogida en tienda</b><p>Calle del Médico Estévez · Santa María de Guía, Gran Canaria</p></div>
+<label>Observaciones<textarea id="notes" rows="4"></textarea></label>
+<h2>Forma de pago</h2>
+<label class="payment-option"><input type="radio" name="payment" value="Pago al recoger en tienda" checked> 💶 Pago al recoger en tienda</label>
+<button class="btn" type="submit">Confirmar pedido</button>
+<div id="msg" class="muted"></div></form></section>
+<aside class="box"><h2>Resumen</h2><div id="summary"></div><div class="drawer-total" style="display:flex;justify-content:space-between"><span>Total</span><b id="total">0,00 €</b></div></aside></div>
+<section id="confirmation" class="box" style="display:none;max-width:900px;margin:30px auto"><span class="eyebrow">PEDIDO CREADO</span><h2>✅ Hemos preparado tu pedido</h2><h3 id="orderNumber"></h3><p id="confirmationText"></p><div id="confirmationItems"></div><div class="confirmation-actions"><a id="waOrder" class="btn" target="_blank" rel="noopener">💬 Enviar pedido por WhatsApp</a><a href="index.html" class="btn ghost">🐠 Volver a la tienda</a></div></section>
 </main>
-
-<script src="data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="data.js"></script>
 <script>
-const products = window.TFR_PRODUCTS || [];
-const cart = JSON.parse(localStorage.getItem("tfr_cart") || "[]");
-const byId = id => products.find(p => p.id === id);
-const items = cart.map(x => ({...x,p:byId(x.id)})).filter(x => x.p);
-
-function render(){
-  const s = document.getElementById("summary");
-  let total = 0;
-  if (!items.length) s.innerHTML = '<div class="empty">El carrito está vacío. <a href="index.html#peces">Volver a la tienda</a></div>';
-  else s.innerHTML = items.map(x => {
-    total += Number(x.qty) * Number(x.p.price);
-    return `<div class="summary-item"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2).replace(".",",")} €</b></div>`;
-  }).join("");
-  document.getElementById("total").textContent = total.toFixed(2).replace(".",",") + " €";
+const sb=window.supabase.createClient(window.TFR_SUPABASE_URL,window.TFR_SUPABASE_PUBLISHABLE_KEY);
+const cart=JSON.parse(localStorage.getItem("tfr_cart")||"[]"); let products=[];
+async function init(){
+  const {data}=await sb.from("products").select("id,name,price,unit,stock,image").eq("active",true);
+  products=Array.isArray(data)&&data.length?data:(window.TFR_FALLBACK_PRODUCTS||[]);
+  renderSummary();
 }
-
-function createWhatsAppMessage(order){
-  const lines = order.items.map(x => `${x.qty}x ${x.name} — ${x.price.toFixed(2).replace(".",",")} €`).join("\n");
-  return [
-    `Nuevo pedido ${order.id}`,`Cliente: ${order.name}`,`Teléfono: ${order.phone}`,`Email: ${order.email}`,
-    `Recogida: ${order.date} ${order.time}`,`Pago: ${order.paymentLabel}`,"",lines,"",
-    `Total: ${order.total.toFixed(2).replace(".",",")} €`,
-    order.notes ? `Observaciones: ${order.notes}` : ""
-  ].filter(Boolean).join("\n");
+function items(){return cart.map(x=>({...x,p:products.find(p=>p.id===x.id)})).filter(x=>x.p);}
+function renderSummary(){
+  let total=0; const list=items();
+  document.getElementById("summary").innerHTML=list.map(x=>{total+=x.qty*x.p.price;return `<div class="summary-item" style="display:flex;justify-content:space-between"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`}).join("")||'<div class="empty">El carrito está vacío.</div>';
+  document.getElementById("total").textContent=total.toFixed(2).replace(".",",")+" €";
 }
-
-document.getElementById("checkoutForm").addEventListener("submit", e => {
+document.getElementById("checkoutForm").addEventListener("submit",async e=>{
   e.preventDefault();
-  if (!items.length) { alert("El carrito está vacío."); return; }
-
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-  const labels = {
-    card:"Tarjeta — pago online (pendiente de conexión)",
-    paypal:"PayPal (pendiente de conexión)",
-    bizum:"Bizum (pendiente de conexión)",
-    store:"Pago al recoger en tienda"
+  const its=items(); if(!its.length){alert("El carrito está vacío.");return;}
+  const payload={
+    p_customer_name:document.getElementById("name").value.trim(),
+    p_customer_phone:document.getElementById("phone").value.trim(),
+    p_customer_email:document.getElementById("email").value.trim(),
+    p_pickup_date:document.getElementById("date").value,
+    p_pickup_time:document.getElementById("time").value,
+    p_notes:document.getElementById("notes").value.trim(),
+    p_payment_method:document.querySelector('input[name="payment"]:checked').value,
+    p_items:its.map(x=>({product_id:x.p.id,quantity:Number(x.qty)}))
   };
-
-  const order = {
-    id:"TFR-"+Date.now(),
-    name:document.getElementById("name").value.trim(),
-    phone:document.getElementById("phone").value.trim(),
-    email:document.getElementById("email").value.trim(),
-    date:document.getElementById("date").value,
-    time:document.getElementById("time").value,
-    notes:document.getElementById("notes").value.trim(),
-    payment, paymentLabel:labels[payment],
-    items:items.map(x=>({id:x.p.id,name:x.p.name,qty:Number(x.qty),price:Number(x.p.price)})),
-    total:items.reduce((sum,x)=>sum+Number(x.qty)*Number(x.p.price),0),
-    status:"Pendiente de confirmación",
-    createdAt:new Date().toISOString()
-  };
-
-  const orders = JSON.parse(localStorage.getItem("tfr_orders") || "[]");
-  orders.push(order);
-  localStorage.setItem("tfr_orders", JSON.stringify(orders));
-
-  document.getElementById("confirmationId").textContent = order.id;
-  document.getElementById("confirmationText").textContent = `Pedido preparado para el ${order.date} a las ${order.time}. Pulsa el botón de WhatsApp para enviarlo a The Fish Room.`;
-  document.getElementById("confirmationItems").innerHTML = order.items.map(x => `<div class="confirmation-item"><span>${x.qty} × ${x.name}</span><b>${(x.qty*x.price).toFixed(2).replace(".",",")} €</b></div>`).join("");
-  document.getElementById("confirmationTotal").textContent = order.total.toFixed(2).replace(".",",") + " €";
-  document.getElementById("whatsappOrder").href = "https://wa.me/34612412469?text=" + encodeURIComponent(createWhatsAppMessage(order));
-
-  document.getElementById("checkoutMain").style.display = "none";
-  document.getElementById("confirmation").classList.add("show");
+  const {data,error}=await sb.rpc("create_order",payload);
+  if(error){document.getElementById("msg").textContent=error.message;return;}
+  document.getElementById("orderNumber").textContent=data.order_number;
+  document.getElementById("confirmationText").textContent=`Recogida: ${payload.p_pickup_date} a las ${payload.p_pickup_time}.`;
+  document.getElementById("confirmationItems").innerHTML=its.map(x=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #173c49"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`).join("");
+  const lines=[
+    `Nuevo pedido ${data.order_number}`,
+    `Cliente: ${payload.p_customer_name}`,
+    `Teléfono: ${payload.p_customer_phone}`,
+    `Email: ${payload.p_customer_email}`,
+    `Recogida: ${payload.p_pickup_date} ${payload.p_pickup_time}`,
+    `Pago: ${payload.p_payment_method}`,
+    "",
+    ...its.map(x=>`${x.qty}x ${x.p.name} — ${Number(x.p.price).toFixed(2)} €`),
+    "",
+    `Total: ${Number(data.total).toFixed(2)} €`
+  ];
+  if(payload.p_notes) lines.push(`Observaciones: ${payload.p_notes}`);
+  document.getElementById("waOrder").href="https://wa.me/34612412469?text="+encodeURIComponent(lines.join("\n"));
+  document.getElementById("checkoutWrap").style.display="none";
+  document.getElementById("confirmation").style.display="block";
   localStorage.removeItem("tfr_cart");
 });
-render();
-</script>
-</body>
-</html>
+init();
+</script></body></html>
