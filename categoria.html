@@ -1,7 +1,59 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Fish Room | Catálogo</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav"><a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a></nav><div class="head-actions"><a class="iconbtn" href="index.html">🏠</a><button class="iconbtn" id="cartBtn">🛒 <b id="cartCount">0</b></button></div></header>
-<section class="category-hero"><span class="eyebrow">THE FISH ROOM · CATÁLOGO</span><h1 id="catTitle"></h1><p id="catDesc"></p></section>
-<section class="section"><div class="chips"><button class="chip" onclick="location.href='categoria.html?c=Bettas'">Bettas</button><button class="chip" onclick="location.href='categoria.html?c=Guppys'">Guppys</button><button class="chip" onclick="location.href='categoria.html?c=Cíclidos'">Cíclidos</button><button class="chip" onclick="location.href='categoria.html?c=Plantas'">Plantas</button></div><div id="products" class="products"></div></section>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Catálogo de The Fish Room">
+  <title>The Fish Room | Catálogo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">The Fish Room 🐟</a>
+  <nav class="nav" aria-label="Navegación principal">
+    <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a>
+    <a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="categoria.html?c=Material">Material</a>
+    <a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a>
+  </nav>
+  <div class="head-actions"><a class="iconbtn" href="index.html">🏠</a><button class="iconbtn" id="cartBtn" type="button">🛒 <b id="cartCount">0</b></button></div>
+</header>
+
+<section class="category-hero">
+  <div class="category-hero-inner"><span class="eyebrow">THE FISH ROOM · CATÁLOGO</span><h1 id="catTitle">Bettas</h1><p id="catDesc"></p></div>
+</section>
+
+<section class="section shop">
+  <div class="section-head">
+    <div><span class="eyebrow">CATÁLOGO</span><h2 id="catHeading">Productos</h2></div>
+    <div class="tools"><input id="search" placeholder="🔎 Buscar..." aria-label="Buscar producto"><select id="sort"><option value="featured">Destacados</option><option value="priceAsc">Precio menor</option><option value="priceDesc">Precio mayor</option><option value="name">Nombre A-Z</option></select></div>
+  </div>
+  <div class="chips category-links">
+    <a class="chip" href="categoria.html?c=Bettas">Bettas</a>
+    <a class="chip" href="categoria.html?c=Guppys">Guppys</a>
+    <a class="chip" href="categoria.html?c=Cíclidos">Cíclidos</a>
+    <a class="chip" href="categoria.html?c=Plantas">Plantas</a>
+    <a class="chip" href="categoria.html?c=Material">Material</a>
+  </div>
+  <div id="products" class="products"></div>
+</section>
+
 <div id="drawer" class="drawer"><div class="drawer-card"><button class="close" onclick="closeDrawer()">✕</button><div id="drawerContent"></div></div></div>
-<script>const c=new URLSearchParams(location.search).get("c")||"Bettas";window.TFR_CATEGORY=c;const m={Bettas:["Bettas","Betta Koi, Corona, Rosa y nuevas variedades."],Guppys:["Guppys","Guppys variados y nuevas líneas."],"Cíclidos":["Cíclidos","Polar Blue y otras variedades."],Plantas:["Plantas","Plantas naturales, musgos y flotantes."],Material:["Material y accesorios","Filtración, iluminación y accesorios."]};document.getElementById("catTitle").textContent=(m[c]||[c,"Productos The Fish Room"])[0];document.getElementById("catDesc").textContent=(m[c]||[c,"Productos The Fish Room"])[1];</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="data.js"></script><script src="app.js"></script></body></html>
+
+<script>
+const c=new URLSearchParams(location.search).get("c")||"Bettas";
+window.TFR_CATEGORY=c;
+const labels={
+  Bettas:["Bettas","Betta Koi, Corona, Rosa y nuevas variedades."],
+  Guppys:["Guppys","Guppys variados y nuevas líneas."],
+  "Cíclidos":["Cíclidos","Polar Blue y otras variedades."],
+  Plantas:["Plantas","Plantas naturales, musgos y flotantes."],
+  Material:["Material y accesorios","Filtración, iluminación y accesorios."],
+  Estanques:["Estanques","Koi, goldfish y accesorios."]
+};
+const info=labels[c]||[c,"Productos The Fish Room"];
+document.getElementById("catTitle").textContent=info[0];
+document.getElementById("catHeading").textContent=info[0];
+document.getElementById("catDesc").textContent=info[1];
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="data.js"></script><script src="app.js"></script>
+</body>
+</html>

@@ -1,33 +1,44 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Fish Room | Producto</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav"><a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a></nav><div class="head-actions"><button class="iconbtn" id="cartBtn">🛒 <b id="cartCount">0</b></button></div></header>
-<main class="detail-page"><div class="breadcrumbs"><a href="index.html">Inicio</a> / <span id="crumb">Producto</span></div><section id="detail" class="product-detail"></section></main>
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Fish Room | Producto</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav">
+  <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="categoria.html?c=Material">Material</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a>
+</nav><div class="head-actions"><button class="iconbtn" id="cartBtn" type="button">🛒 <b id="cartCount">0</b></button></div></header>
+<main class="detail-page">
+  <div class="breadcrumbs"><a href="index.html">Inicio</a> / <span id="crumb">Producto</span></div>
+  <section id="detail" class="product-detail"></section>
+</main>
 <div id="drawer" class="drawer"><div class="drawer-card"><button class="close" onclick="closeDrawer()">✕</button><div id="drawerContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="data.js"></script><script src="app.js"></script>
 <script>
 (async()=>{
- const id=new URLSearchParams(location.search).get("id");
- await (async()=>{if(!TFR.products.length) await loadProducts();})();
- const p=TFR.products.find(x=>x.id===id)||(window.TFR_FALLBACK_PRODUCTS||[]).find(x=>x.id===id);
- if(!p){document.getElementById("detail").innerHTML='<div class="empty">Producto no encontrado.</div>';return;}
- const s=stockState(p); document.title="The Fish Room | "+p.name; document.getElementById("crumb").textContent=p.name;
- document.getElementById("detail").innerHTML=`
+  const id=new URLSearchParams(location.search).get("id");
+  await loadProducts();
+  const p=TFR.products.find(x=>x.id===id)||(window.TFR_FALLBACK_PRODUCTS||[]).find(x=>x.id===id);
+  if(!p){document.getElementById("detail").innerHTML='<div class="empty">Producto no encontrado.</div>';return;}
+  const s=stockState(p); document.title="The Fish Room | "+p.name; document.getElementById("crumb").textContent=p.name;
+  document.getElementById("detail").innerHTML=`
   <div class="detail-image"><img src="${p.image}" alt="${p.name}"></div>
-  <div class="detail-copy"><span class="tag">${p.category.toUpperCase()}</span><h1>${p.name}</h1><p class="detail-desc">${p.description||""}</p>
+  <div class="detail-copy"><span class="tag">${String(p.category).toUpperCase()}</span><h1>${p.name}</h1><p class="detail-desc">${p.description||""}</p>
   <div class="detail-price">${Number(p.price).toFixed(2).replace(".",",")} € <small>/ ${p.unit||"unidad"}</small></div>
   <div class="detail-stock ${s.cls}">● ${s.text}</div>
   <div class="detail-actions">
     <button class="btn" ${s.cls==="off"?"disabled":""} onclick="addCart('${p.id}')">🛒 Añadir al carrito</button>
-    <button class="btn ghost" onclick="reserve('${p.id}')">⏱️ Solicitar reserva 24 h</button>
-    <a class="btn ghost" target="_blank" href="https://wa.me/34612412469?text=${encodeURIComponent(`Hola The Fish Room, me interesa ${p.name}. ¿Sigue disponible?`)}">💬 WhatsApp</a>
+    <button class="btn ghost" ${s.cls==="off"?"disabled":""} onclick="reserve('${p.id}')">⏱️ Solicitar reserva 24 h</button>
+    <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/34612412469?text=${encodeURIComponent(`Hola The Fish Room, me interesa ${p.name}. ¿Sigue disponible?`)}">💬 WhatsApp</a>
   </div>
   <div class="detail-info"><div><b>Recogida</b><span>En tienda · Santa María de Guía</span></div><div><b>Atención</b><span>612 412 469 · @thefishroomm</span></div></div></div>`;
 })();
 async function reserve(id){
- const name=prompt("Nombre (opcional):")||null;
- const phone=prompt("Teléfono (opcional):")||null;
- const {data,error}=await TFR.sb.rpc("create_reservation",{p_product_id:id,p_customer_name:name,p_customer_phone:phone});
- if(error) return alert(error.message);
- const p=TFR.products.find(x=>x.id===id);
- location.href="https://wa.me/34612412469?text="+encodeURIComponent(`Hola The Fish Room, quiero reservar durante 24 horas: ${p?.name||id}.`);
+  const p=TFR.products.find(x=>x.id===id);
+  if(!p)return;
+  const name=prompt("Nombre (opcional):")||null;
+  const phone=prompt("Teléfono (opcional):")||null;
+  const {error}=await TFR.sb.rpc("create_reservation",{p_product_id:id,p_customer_name:name,p_customer_phone:phone});
+  if(error){alert(error.message);return;}
+  location.href="https://wa.me/34612412469?text="+encodeURIComponent(`Hola The Fish Room, he creado una reserva de 24 horas: ${p.name}.`);
 }
-</script></body></html>
+</script>
+</body>
+</html>

@@ -1,69 +1,39 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Finalizar pedido | The Fish Room</title><link rel="stylesheet" href="style.css"></head><body>
-<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav"><a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a></nav></header>
-<main class="checkout section"><div class="section-head center"><span class="eyebrow">FINALIZAR PEDIDO</span><h2>Recoge tu pedido en The Fish Room</h2></div>
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Finalizar pedido | The Fish Room</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="top"><a class="brand" href="index.html">The Fish Room 🐟</a><nav class="nav">
+  <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Cíclidos">Cíclidos</a><a href="categoria.html?c=Material">Material</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a>
+</nav><div class="head-actions"><a class="iconbtn" href="index.html">🐠 Volver</a></div></header>
+<main class="checkout section"><div class="section-head center"><span class="eyebrow">FINALIZAR PEDIDO</span><h2>Recoge tu pedido en The Fish Room</h2><p>Por ahora trabajamos con recogida en tienda en Santa María de Guía.</p></div>
 <div id="checkoutWrap" class="checkout-grid"><section class="box"><h2>Datos del cliente</h2><form id="checkoutForm">
-<div class="two"><label>Nombre y apellidos<input id="name" required></label><label>Teléfono<input id="phone" required></label></div>
-<label>Correo electrónico<input id="email" type="email" required></label>
-<div class="two"><label>Fecha de recogida<input id="date" type="date" required></label><label>Hora aproximada<input id="time" type="time" required></label></div>
-<div class="pickup"><b>🏪 Recogida en tienda</b><p>Calle del Médico Estévez · Santa María de Guía, Gran Canaria</p></div>
-<label>Observaciones<textarea id="notes" rows="4"></textarea></label>
-<h2>Forma de pago</h2>
-<label class="payment-option"><input type="radio" name="payment" value="Pago al recoger en tienda" checked> 💶 Pago al recoger en tienda</label>
-<button class="btn" type="submit">Confirmar pedido</button>
-<div id="msg" class="muted"></div></form></section>
-<aside class="box"><h2>Resumen</h2><div id="summary"></div><div class="drawer-total" style="display:flex;justify-content:space-between"><span>Total</span><b id="total">0,00 €</b></div></aside></div>
-<section id="confirmation" class="box" style="display:none;max-width:900px;margin:30px auto"><span class="eyebrow">PEDIDO CREADO</span><h2>✅ Hemos preparado tu pedido</h2><h3 id="orderNumber"></h3><p id="confirmationText"></p><div id="confirmationItems"></div><div class="confirmation-actions"><a id="waOrder" class="btn" target="_blank" rel="noopener">💬 Enviar pedido por WhatsApp</a><a href="index.html" class="btn ghost">🐠 Volver a la tienda</a></div></section>
+  <div class="two"><label>Nombre y apellidos<input id="name" required></label><label>Teléfono<input id="phone" required></label></div>
+  <label>Correo electrónico<input id="email" type="email" required></label>
+  <div class="two"><label>Fecha de recogida<input id="date" type="date" required></label><label>Hora aproximada<input id="time" type="time" required></label></div>
+  <div class="pickup"><b>🏪 Recogida en tienda</b><p>Calle del Médico Estévez · Santa María de Guía, Gran Canaria</p></div>
+  <label>Observaciones<textarea id="notes" rows="4"></textarea></label>
+  <h2>Forma de pago</h2>
+  <label class="payment-option"><input type="radio" name="payment" value="Pago al recoger en tienda" checked> 💶 Pago al recoger en tienda</label>
+  <button class="btn" type="submit">Confirmar pedido</button><div id="msg" class="muted"></div>
+</form></section>
+<aside class="box"><h2>Resumen</h2><div id="summary"></div><div class="drawer-total inline-total"><span>Total</span><b id="total">0,00 €</b></div></aside></div>
+<section id="confirmation" class="box confirmation" style="display:none;max-width:900px;margin:30px auto"><span class="eyebrow">PEDIDO CREADO</span><h2>✅ Hemos preparado tu pedido</h2><h3 id="orderNumber"></h3><p id="confirmationText"></p><div id="confirmationItems"></div><div class="confirmation-actions"><a id="waOrder" class="btn" target="_blank" rel="noopener">💬 Enviar pedido por WhatsApp</a><a href="index.html" class="btn ghost">🐠 Volver a la tienda</a></div></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="data.js"></script>
 <script>
 const sb=window.supabase.createClient(window.TFR_SUPABASE_URL,window.TFR_SUPABASE_PUBLISHABLE_KEY);
 const cart=JSON.parse(localStorage.getItem("tfr_cart")||"[]"); let products=[];
-async function init(){
-  const {data}=await sb.from("products").select("id,name,price,unit,stock,image").eq("active",true);
-  products=Array.isArray(data)&&data.length?data:(window.TFR_FALLBACK_PRODUCTS||[]);
-  renderSummary();
-}
-function items(){return cart.map(x=>({...x,p:products.find(p=>p.id===x.id)})).filter(x=>x.p);}
-function renderSummary(){
-  let total=0; const list=items();
-  document.getElementById("summary").innerHTML=list.map(x=>{total+=x.qty*x.p.price;return `<div class="summary-item" style="display:flex;justify-content:space-between"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`}).join("")||'<div class="empty">El carrito está vacío.</div>';
-  document.getElementById("total").textContent=total.toFixed(2).replace(".",",")+" €";
-}
+async function init(){const {data,error}=await sb.from("products").select("id,name,price,unit,stock,image").eq("active",true);products=Array.isArray(data)&&data.length?data:(window.TFR_FALLBACK_PRODUCTS||[]);if(error)document.getElementById("msg").textContent="No se pudo consultar el catálogo. Revisa tu conexión.";renderSummary();}
+function items(){return cart.map(x=>({...x,p:products.find(p=>p.id===x.id)})).filter(x=>x.p)}
+function renderSummary(){let total=0;const list=items();document.getElementById("summary").innerHTML=list.map(x=>{total+=x.qty*x.p.price;return `<div class="summary-item" style="display:flex;justify-content:space-between"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`}).join("")||'<div class="empty">El carrito está vacío.</div>';document.getElementById("total").textContent=total.toFixed(2).replace(".",",")+" €";}
 document.getElementById("checkoutForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const its=items(); if(!its.length){alert("El carrito está vacío.");return;}
-  const payload={
-    p_customer_name:document.getElementById("name").value.trim(),
-    p_customer_phone:document.getElementById("phone").value.trim(),
-    p_customer_email:document.getElementById("email").value.trim(),
-    p_pickup_date:document.getElementById("date").value,
-    p_pickup_time:document.getElementById("time").value,
-    p_notes:document.getElementById("notes").value.trim(),
-    p_payment_method:document.querySelector('input[name="payment"]:checked').value,
-    p_items:its.map(x=>({product_id:x.p.id,quantity:Number(x.qty)}))
-  };
-  const {data,error}=await sb.rpc("create_order",payload);
-  if(error){document.getElementById("msg").textContent=error.message;return;}
-  document.getElementById("orderNumber").textContent=data.order_number;
-  document.getElementById("confirmationText").textContent=`Recogida: ${payload.p_pickup_date} a las ${payload.p_pickup_time}.`;
-  document.getElementById("confirmationItems").innerHTML=its.map(x=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #173c49"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`).join("");
-  const lines=[
-    `Nuevo pedido ${data.order_number}`,
-    `Cliente: ${payload.p_customer_name}`,
-    `Teléfono: ${payload.p_customer_phone}`,
-    `Email: ${payload.p_customer_email}`,
-    `Recogida: ${payload.p_pickup_date} ${payload.p_pickup_time}`,
-    `Pago: ${payload.p_payment_method}`,
-    "",
-    ...its.map(x=>`${x.qty}x ${x.p.name} — ${Number(x.p.price).toFixed(2)} €`),
-    "",
-    `Total: ${Number(data.total).toFixed(2)} €`
-  ];
-  if(payload.p_notes) lines.push(`Observaciones: ${payload.p_notes}`);
+  e.preventDefault();const its=items();if(!its.length){alert("El carrito está vacío.");return;}
+  const payload={p_customer_name:document.getElementById("name").value.trim(),p_customer_phone:document.getElementById("phone").value.trim(),p_customer_email:document.getElementById("email").value.trim(),p_pickup_date:document.getElementById("date").value,p_pickup_time:document.getElementById("time").value,p_notes:document.getElementById("notes").value.trim(),p_payment_method:document.querySelector('input[name="payment"]:checked').value,p_items:its.map(x=>({product_id:x.p.id,quantity:Number(x.qty)}))};
+  const {data,error}=await sb.rpc("create_order",payload);if(error){document.getElementById("msg").textContent=error.message;return;}
+  document.getElementById("orderNumber").textContent=data.order_number;document.getElementById("confirmationText").textContent=`Recogida: ${payload.p_pickup_date} a las ${payload.p_pickup_time}.`;
+  document.getElementById("confirmationItems").innerHTML=its.map(x=>`<div class="summary-item" style="display:flex;justify-content:space-between"><span>${x.qty} × ${x.p.name}</span><b>${(x.qty*x.p.price).toFixed(2)} €</b></div>`).join("");
+  const lines=[`Nuevo pedido ${data.order_number}`,`Cliente: ${payload.p_customer_name}`,`Teléfono: ${payload.p_customer_phone}`,`Email: ${payload.p_customer_email}`,`Recogida: ${payload.p_pickup_date} ${payload.p_pickup_time}`,`Pago: ${payload.p_payment_method}`,"",...its.map(x=>`${x.qty}x ${x.p.name} — ${Number(x.p.price).toFixed(2)} €`),"",`Total: ${Number(data.total).toFixed(2)} €`];if(payload.p_notes)lines.push(`Observaciones: ${payload.p_notes}`);
   document.getElementById("waOrder").href="https://wa.me/34612412469?text="+encodeURIComponent(lines.join("\n"));
-  document.getElementById("checkoutWrap").style.display="none";
-  document.getElementById("confirmation").style.display="block";
-  localStorage.removeItem("tfr_cart");
-});
-init();
+  document.getElementById("checkoutWrap").style.display="none";document.getElementById("confirmation").style.display="block";localStorage.removeItem("tfr_cart");
+});init();
 </script></body></html>
