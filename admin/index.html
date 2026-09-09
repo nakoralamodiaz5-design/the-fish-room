@@ -1,24 +1,327 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin | The Fish Room</title>
-<style>body{margin:0;background:#06131a;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:30px}.card{background:#0a202a;border:1px solid #184653;border-radius:16px;padding:22px;margin:18px 0}input,select,textarea{width:100%;padding:11px;background:#06151c;color:#fff;border:1px solid #2c5664;border-radius:9px;margin:5px 0 10px}button{padding:10px 14px;border:0;border-radius:9px;font-weight:800;cursor:pointer}.primary{background:#10bceF}.danger{background:#9c2f3d;color:#fff}.brand{font-size:27px;font-weight:900;color:#14c1f1}.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat b{display:block;font-size:30px;margin-top:5px}.muted{color:#97adb4;font-size:12px}.table{width:100%;border-collapse:collapse}.table td,.table th{text-align:left;padding:10px;border-bottom:1px solid #163a45;font-size:12px}.login{min-height:100vh;display:grid;place-items:center}.login .card{width:min(420px,90vw)}#app{display:none}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}@media(max-width:500px){.grid{grid-template-columns:1fr}}</style></head>
-<body><div id="login" class="login"><div class="card"><div class="brand">The Fish Room 🐟</div><h2>Panel de administración</h2><p class="muted">Acceso local de pruebas. En producción usaremos autenticación del servidor.</p><input id="u" placeholder="Usuario"><input id="p" type="password" placeholder="Contraseña"><button class="primary" onclick="login()" style="width:100%">Entrar</button><p id="msg" class="muted"></p></div></div>
-<div id="app"><div class="wrap"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="brand">The Fish Room 🐟</div><h1>Administrador</h1></div><button onclick="logout()">Cerrar sesión</button></div>
-<div class="grid"><div class="card stat"><span class="muted">Productos</span><b id="nP">0</b></div><div class="card stat"><span class="muted">Pedidos</span><b id="nO">0</b></div><div class="card stat"><span class="muted">Reservas</span><b id="nR">0</b></div><div class="card stat"><span class="muted">Servicios</span><b id="nS">0</b></div></div>
-<div class="card"><h2>Añadir producto</h2><div class="row"><div><label>Nombre<input id="name"></label><label>Categoría<select id="cat"><option>Bettas</option><option>Guppys</option><option>Cíclidos</option><option>Plantas</option><option>Estanques</option><option>Acuarios</option><option>Filtración</option><option>Iluminación</option><option>Alimentación</option><option>Decoración</option><option>Accesorios</option></select></label><label>Precio<input id="price" type="number" step="0.01"></label></div><div><label>Stock<input id="stock" type="number" min="0"></label><label>Unidad<input id="unit" value="unidad"></label><label>Foto (ruta o URL)<input id="image"></label><label>Descripción<textarea id="desc" rows="3"></textarea></label></div></div><button class="primary" onclick="add()">Guardar producto</button></div>
-<div class="card"><h2>Catálogo</h2><div style="overflow:auto"><table class="table"><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div></div>
-<div class="card"><h2>Solicitudes de servicio</h2><div id="services"></div></div>
-<div class="card"><h2>Reservas y pedidos</h2><p class="muted">En la siguiente fase conectaremos estos datos a una base de datos y a pagos reales.</p></div>
-</div></div>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administrador | The Fish Room</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main class="checkout">
+  <section id="loginBox" class="box" style="max-width:520px;margin:60px auto">
+    <span class="eyebrow">THE FISH ROOM</span>
+    <h2>Panel de administración</h2>
+    <p>Panel local de trabajo. Los datos se guardan en este navegador. No sustituye a una autenticación de servidor para producción.</p>
+    <form id="loginForm" class="admin-form">
+      <label>Clave de acceso<input id="adminPin" type="password" required autocomplete="current-password"></label>
+      <button class="btn" type="submit">Entrar</button>
+      <div id="loginMsg" class="admin-muted"></div>
+    </form>
+  </section>
+
+  <section id="adminApp" style="display:none">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">ADMINISTRACIÓN</span>
+        <h2 style="margin-bottom:0">The Fish Room</h2>
+      </div>
+      <div class="admin-actions">
+        <button class="btn ghost" type="button" id="backupBtn">Exportar copia</button>
+        <button class="btn ghost" type="button" id="importBtn">Importar copia</button>
+        <button class="btn ghost" type="button" id="logoutBtn">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div class="admin-card admin-stat"><span class="admin-muted">Productos</span><b id="statProducts">0</b></div>
+      <div class="admin-card admin-stat"><span class="admin-muted">Pedidos</span><b id="statOrders">0</b></div>
+      <div class="admin-card admin-stat"><span class="admin-muted">Reservas</span><b id="statReservations">0</b></div>
+      <div class="admin-card admin-stat"><span class="admin-muted">Servicios</span><b id="statServices">0</b></div>
+    </div>
+
+    <div class="admin-nav">
+      <button class="active" data-tab="productsTab">Productos</button>
+      <button data-tab="ordersTab">Pedidos</button>
+      <button data-tab="reservationsTab">Reservas</button>
+      <button data-tab="servicesTab">Servicios</button>
+    </div>
+
+    <section id="productsTab" class="admin-section active">
+      <div class="admin-card">
+        <h2>Añadir / editar producto</h2>
+        <form id="productForm" class="admin-form">
+          <input id="editId" type="hidden">
+          <div class="admin-two">
+            <label>Nombre<input id="pName" required></label>
+            <label>Categoría<select id="pCategory"><option>Bettas</option><option>Guppys</option><option>Cíclidos</option><option>Plantas</option><option>Estanques</option><option>Acuarios</option><option>Filtración</option><option>Iluminación</option><option>Alimentación</option><option>Decoración</option><option>Accesorios</option></select></label>
+          </div>
+          <div class="admin-two">
+            <label>Precio<input id="pPrice" type="number" min="0" step="0.01" required></label>
+            <label>Stock<input id="pStock" type="number" min="0" step="1" required></label>
+          </div>
+          <div class="admin-two">
+            <label>Unidad<input id="pUnit" value="unidad"></label>
+            <label>Imagen (ruta o URL)<input id="pImage" placeholder="ej. betta-nuevo.webp"></label>
+          </div>
+          <label>Descripción<textarea id="pDescription" rows="3"></textarea></label>
+          <div class="admin-actions">
+            <button class="btn" type="submit" id="saveProductBtn">Guardar producto</button>
+            <button class="btn ghost" type="button" id="cancelEditBtn">Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-card" style="margin-top:18px">
+        <h2>Catálogo</h2>
+        <div style="overflow:auto">
+          <table class="admin-table">
+            <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="productsRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="ordersTab" class="admin-section">
+      <div class="admin-card"><h2>Pedidos</h2><div id="ordersList"></div></div>
+    </section>
+
+    <section id="reservationsTab" class="admin-section">
+      <div class="admin-card"><h2>Reservas</h2><div id="reservationsList"></div></div>
+    </section>
+
+    <section id="servicesTab" class="admin-section">
+      <div class="admin-card"><h2>Solicitudes de servicio</h2><div id="servicesList"></div></div>
+    </section>
+  </section>
+</main>
+
+<script src="../data.js"></script>
 <script>
-const KEY="tfr_admin_products";
-let products=JSON.parse(localStorage.getItem(KEY)||"null")||window.opener?.SEED_PRODUCTS||[];
-function login(){if(document.getElementById("u").value==="admin"&&document.getElementById("p").value==="TfR!Acuario_2026#Gm7"){sessionStorage.tfrAdmin="1";show()}else document.getElementById("msg").textContent="Usuario o contraseña incorrectos"}
-function logout(){sessionStorage.removeItem("tfrAdmin");location.reload()}
-function show(){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render()}
-function save(){localStorage.setItem(KEY,JSON.stringify(products))}
-function add(){const p={id:"p"+Date.now(),name:document.getElementById("name").value,category:document.getElementById("cat").value,price:Number(document.getElementById("price").value),stock:Number(document.getElementById("stock").value),unit:document.getElementById("unit").value||"unidad",image:document.getElementById("image").value,description:document.getElementById("desc").value,featured:false};products.push(p);save();render();alert("Producto guardado.")}
-function delp(id){products=products.filter(p=>p.id!==id);save();render()}
-function toggle(id){const p=products.find(p=>p.id===id);p.stock=p.stock?0:1;save();render()}
-function render(){document.getElementById("nP").textContent=products.length;document.getElementById("nO").textContent=JSON.parse(localStorage.getItem("tfr_orders")||"[]").length;document.getElementById("nR").textContent=JSON.parse(localStorage.getItem("tfr_reservations")||"[]").length;document.getElementById("nS").textContent=JSON.parse(localStorage.getItem("tfr_bookings")||"[]").length;document.getElementById("rows").innerHTML=products.map(p=>`<tr><td>${p.name}</td><td>${p.category}</td><td>${p.price.toFixed(2)} €</td><td>${p.stock}</td><td><button onclick="toggle('${p.id}')">Disponible/Agotado</button> <button class="danger" onclick="delp('${p.id}')">Eliminar</button></td></tr>`).join("");const s=JSON.parse(localStorage.getItem("tfr_bookings")||"[]");document.getElementById("services").innerHTML=s.length?s.map(x=>`<div class="card"><b>${x.service}</b> · ${x.type} · ${x.date} ${x.time}<br>${x.name} · ${x.phone}<br>${x.problem||""}</div>`).join(""):"<p class='muted'>No hay solicitudes.</p>"}
-if(sessionStorage.tfrAdmin==="1")show();
-</script><!-- Los stocks reales se introducirán desde el panel cuando se conecte la base de datos. -->
-</body></html>
+const ADMIN_SESSION = "tfr_admin_session";
+const ADMIN_PIN_KEY = "tfr_admin_pin";
+const DEFAULT_PIN = "2468";
+
+let products = [...(window.TFR_PRODUCTS || [])];
+
+const $ = (s) => document.querySelector(s);
+const readJson = (key) => {
+  try { return JSON.parse(localStorage.getItem(key) || "[]"); } catch { return []; }
+};
+const saveProducts = () => {
+  localStorage.setItem("tfr_products", JSON.stringify(products));
+  window.TFR_PRODUCTS = products;
+};
+
+function ensurePin() {
+  if (!localStorage.getItem(ADMIN_PIN_KEY)) localStorage.setItem(ADMIN_PIN_KEY, DEFAULT_PIN);
+}
+
+function showAdmin() {
+  $("#loginBox").style.display = "none";
+  $("#adminApp").style.display = "block";
+  renderAll();
+}
+
+function login(e) {
+  e.preventDefault();
+  ensurePin();
+  const pin = $("#adminPin").value;
+  if (pin === localStorage.getItem(ADMIN_PIN_KEY)) {
+    sessionStorage.setItem(ADMIN_SESSION, "1");
+    showAdmin();
+  } else {
+    $("#loginMsg").textContent = "Clave incorrecta.";
+  }
+}
+
+function resetForm() {
+  $("#productForm").reset();
+  $("#editId").value = "";
+  $("#pUnit").value = "unidad";
+  $("#saveProductBtn").textContent = "Guardar producto";
+}
+
+function renderProducts() {
+  $("#productsRows").innerHTML = products.length ? products.map(p => `
+    <tr>
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td>${Number(p.price).toFixed(2)} €</td>
+      <td>${Number(p.stock || 0)}</td>
+      <td>${Number(p.stock || 0) > 0 ? "Disponible" : "Agotado"}</td>
+      <td>
+        <div class="admin-actions">
+          <button type="button" onclick="editProduct('${p.id}')">Editar</button>
+          <button type="button" onclick="toggleStock('${p.id}')">${Number(p.stock || 0) > 0 ? "Agotar" : "Reponer"}</button>
+          <button type="button" class="danger" onclick="deleteProduct('${p.id}')">Eliminar</button>
+        </div>
+      </td>
+    </tr>
+  `).join("") : '<tr><td colspan="6" class="admin-muted">No hay productos.</td></tr>';
+}
+
+function renderOrders() {
+  const orders = readJson("tfr_orders");
+  $("#ordersList").innerHTML = orders.length ? orders.slice().reverse().map(o => `
+    <div class="admin-card" style="margin-bottom:12px">
+      <b>${o.id}</b> · ${o.status || "Pendiente"}
+      <p>${o.name} · ${o.phone} · ${o.email}</p>
+      <p>Recogida: ${o.date} ${o.time}</p>
+      <p>${(o.items || []).map(i => `${i.qty} × ${i.name}`).join(" · ")} · <b>${Number(o.total).toFixed(2)} €</b></p>
+      <div class="admin-actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/34${String(o.phone||"").replace(/\\D/g,"")}?text=${encodeURIComponent("Hola " + (o.name||"") + ", sobre tu pedido " + o.id + " de The Fish Room.")}">WhatsApp cliente</a>
+      </div>
+    </div>
+  `).join("") : '<div class="empty">No hay pedidos todavía.</div>';
+}
+
+function renderReservations() {
+  const data = readJson("tfr_reservations");
+  $("#reservationsList").innerHTML = data.length ? data.slice().reverse().map(r => `
+    <div class="admin-card" style="margin-bottom:12px">
+      <b>${r.name || r.id}</b>
+      <p>Creada: ${r.createdAt || ""}</p>
+      <p>Caduca: ${r.expiresAt || ""}</p>
+    </div>
+  `).join("") : '<div class="empty">No hay reservas.</div>';
+}
+
+function renderServices() {
+  const data = readJson("tfr_bookings");
+  $("#servicesList").innerHTML = data.length ? data.slice().reverse().map(s => `
+    <div class="admin-card" style="margin-bottom:12px">
+      <b>${s.service}</b> · ${s.type}
+      <p>${s.date} ${s.time} · ${s.name} · ${s.phone}</p>
+      <p>${s.address || ""}</p>
+      <p>${s.problem || ""}</p>
+    </div>
+  `).join("") : '<div class="empty">No hay solicitudes.</div>';
+}
+
+function renderStats() {
+  $("#statProducts").textContent = products.length;
+  $("#statOrders").textContent = readJson("tfr_orders").length;
+  $("#statReservations").textContent = readJson("tfr_reservations").length;
+  $("#statServices").textContent = readJson("tfr_bookings").length;
+}
+
+function renderAll() {
+  renderStats();
+  renderProducts();
+  renderOrders();
+  renderReservations();
+  renderServices();
+}
+
+window.editProduct = (id) => {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  $("#editId").value = p.id;
+  $("#pName").value = p.name;
+  $("#pCategory").value = p.category;
+  $("#pPrice").value = p.price;
+  $("#pStock").value = p.stock ?? 0;
+  $("#pUnit").value = p.unit || "unidad";
+  $("#pImage").value = p.image || "";
+  $("#pDescription").value = p.description || "";
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+
+window.toggleStock = (id) => {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  p.stock = Number(p.stock) > 0 ? 0 : 1;
+  saveProducts(); renderAll();
+};
+
+window.deleteProduct = (id) => {
+  if (!confirm("¿Eliminar este producto del catálogo?")) return;
+  products = products.filter(p => p.id !== id);
+  saveProducts(); renderAll();
+};
+
+$("#loginForm").addEventListener("submit", login);
+
+$("#productForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = $("#editId").value || "p" + Date.now();
+  const product = {
+    id,
+    name: $("#pName").value.trim(),
+    category: $("#pCategory").value,
+    price: Number($("#pPrice").value),
+    stock: Number($("#pStock").value),
+    unit: $("#pUnit").value.trim() || "unidad",
+    image: $("#pImage").value.trim(),
+    description: $("#pDescription").value.trim(),
+    featured: false
+  };
+  const existing = products.findIndex(p => p.id === id);
+  if (existing >= 0) products[existing] = product;
+  else products.push(product);
+  saveProducts();
+  resetForm();
+  renderAll();
+  alert("Producto guardado.");
+});
+
+$("#cancelEditBtn").addEventListener("click", resetForm);
+$("#logoutBtn").addEventListener("click", () => { sessionStorage.removeItem(ADMIN_SESSION); location.reload(); });
+
+document.querySelectorAll(".admin-nav button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".admin-nav button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+    btn.classList.add("active");
+    $("#" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+$("#backupBtn").addEventListener("click", () => {
+  const backup = {
+    products,
+    orders: readJson("tfr_orders"),
+    reservations: readJson("tfr_reservations"),
+    bookings: readJson("tfr_bookings"),
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "the-fish-room-backup.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+$("#importBtn").addEventListener("click", () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json,application/json";
+  input.onchange = () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (Array.isArray(data.products)) { products = data.products; saveProducts(); }
+        if (Array.isArray(data.orders)) localStorage.setItem("tfr_orders", JSON.stringify(data.orders));
+        if (Array.isArray(data.reservations)) localStorage.setItem("tfr_reservations", JSON.stringify(data.reservations));
+        if (Array.isArray(data.bookings)) localStorage.setItem("tfr_bookings", JSON.stringify(data.bookings));
+        renderAll();
+        alert("Copia restaurada.");
+      } catch {
+        alert("El archivo no es una copia válida de The Fish Room.");
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+});
+
+ensurePin();
+if (sessionStorage.getItem(ADMIN_SESSION) === "1") showAdmin();
+</script>
+</body>
+</html>

@@ -1,29 +1,29 @@
-# The Fish Room — versión completa de trabajo
+THE FISH ROOM — PAQUETE COMPLETO V1
 
-## Ver la web
-Abre `index.html` con Chrome o Edge.
+Subida en bloque:
+1) Extrae este ZIP.
+2) En GitHub usa Agregar archivo > Subir archivos.
+3) Selecciona TODOS los archivos del paquete y conserva sus rutas.
+4) Confirma el commit en la rama principal.
+5) No borres las imágenes .webp/.png ya existentes en el repositorio.
 
-## Panel de administrador
-Abre `admin/index.html`.
+Archivos incluidos:
+- index.html
+- categoria.html
+- producto.html
+- checkout.html
+- app.js
+- data.js
+- style.css
+- admin/index.html
+- README.txt
 
-Usuario: admin
-Contraseña: TfR!Acuario_2026#Gm7
+Arquitectura:
+- data.js es el catálogo común.
+- app.js es el carrito/favoritos/servicios común.
+- tfr_products guarda cambios de catálogo locales del panel.
+- tfr_cart guarda el carrito.
+- tfr_orders, tfr_reservations y tfr_bookings guardan pedidos/reservas/servicios locales.
 
-## Incluido ahora
-- Diseño llamativo y responsive
-- Catálogo con los 9 productos reales que has enviado
-- Categorías y filtros
-- Búsqueda y ordenación
-- Carrito local
-- Favoritos
-- WhatsApp por producto
-- Reservas/solicitudes de servicio
-- Mantenimiento, montaje, reparación y agua/filtración
-- FAQ
-- Contacto, Instagram, correo y WhatsApp
-- Panel de administración local para gestionar productos y stock
-
-## Para publicar de verdad
-La parte que todavía necesita servidor/servicios externos es: pagos reales, cuentas de cliente multi-dispositivo, correo automático, WhatsApp Business API, base de datos, reservas con bloqueo real de stock, copias de seguridad automáticas y autenticación segura de producción.
-
-No pongas pagos reales hasta conectar una pasarela (Stripe/PayPal/Bizum según proveedor), HTTPS y una base de datos.
+IMPORTANTE:
+GitHub Pages es estático. Esta versión no ofrece autenticación ni base de datos de producción. Los datos del panel son locales al navegador y no se sincronizan entre dispositivos. Los pagos online son solamente una interfaz hasta conectar una pasarela real.

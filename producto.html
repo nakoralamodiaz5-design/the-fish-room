@@ -14,15 +14,10 @@
 <header class="top">
   <a class="brand" href="index.html">The Fish Room <span>🐟</span></a>
   <nav class="nav">
-    <a href="categoria.html?c=Bettas">Peces</a>
-    <a href="categoria.html?c=Plantas">Plantas</a>
-    <a href="categoria.html?c=Material">Material</a>
-    <a href="index.html#servicios">Servicios</a>
-    <a href="index.html#contacto">Contacto</a>
+    <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a>
+    <a href="categoria.html?c=Material">Material</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a>
   </nav>
-  <div class="head-actions">
-    <button class="iconbtn" id="cartBtn" type="button">🛒 <b id="cartCount">0</b></button>
-  </div>
+  <div class="head-actions"><button class="iconbtn" id="cartBtn" type="button">🛒 <b id="cartCount">0</b></button></div>
 </header>
 
 <main class="detail-page">
@@ -31,98 +26,83 @@
   <section class="related section" id="related"></section>
 </main>
 
-<div id="drawer" class="drawer">
-  <div class="drawer-card">
-    <button class="close" type="button" onclick="closeDrawer()">✕</button>
-    <div id="drawerContent"></div>
-  </div>
-</div>
+<div id="drawer" class="drawer"><div class="drawer-card"><button class="close" type="button" onclick="closeDrawer()">✕</button><div id="drawerContent"></div></div></div>
 
+<script src="data.js"></script>
 <script>
-window.SEED_PRODUCTS = [
-{"id":"betta-koi-hembra","name":"Betta Koi Hembra","category":"Bettas","price":25,"stock":null,"unit":"unidad","image":"betta-koi-hembra.webp","description":"Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room.","featured":true,"stockKnown":false},
-{"id":"guppy-variado","name":"Guppy Variado","category":"Guppys","price":3,"stock":null,"unit":"unidad","image":"guppy-variado.webp","description":"Guppy variado. Disponibilidad y color según stock actual.","featured":true,"stockKnown":false},
-{"id":"betta-corona","name":"Betta Corona","category":"Bettas","price":20,"stock":null,"unit":"unidad","image":"betta-corona.webp","description":"Betta Corona con coloración azul y roja.","featured":true,"stockKnown":false},
-{"id":"ciclidos-varios","name":"Cíclidos Varios","category":"Cíclidos","price":10,"stock":null,"unit":"unidad","image":"ciclidos-varios.webp","description":"Selección de cíclidos disponibles según stock.","featured":false,"stockKnown":false},
-{"id":"polar-blue","name":"Polar Blue","category":"Cíclidos","price":5,"stock":null,"unit":"unidad","image":"polar-blue.webp","description":"Polar Blue para acuario de cíclidos. Consultar compatibilidad.","featured":true,"stockKnown":false},
-{"id":"christmas-moss","name":"Christmas Moss","category":"Plantas","price":5,"stock":null,"unit":"tarro","image":"christmas-moss.webp","description":"Christmas Moss — 5 € por tarro.","featured":false,"stockKnown":false},
-{"id":"lemna-minor","name":"Lemna minor","category":"Plantas","price":2,"stock":null,"unit":"tarrina","image":"lemna-minor.webp","description":"Lemna minor — 2 € por tarrina.","featured":false,"stockKnown":false},
-{"id":"salvinia-natans","name":"Salvinia natans","category":"Plantas","price":3,"stock":null,"unit":"tarrina","image":"salvinia-natans.webp","description":"Salvinia natans / acordeón de agua — 3 € por tarrina.","featured":false,"stockKnown":false},
-{"id":"betta-rosa-hembra","name":"Betta Rosa Hembra","category":"Bettas","price":10,"stock":null,"unit":"unidad","image":"betta-rosa-hembra.webp","description":"Betta rosa hembra. Ejemplar mostrado en fotografía propia.","featured":false,"stockKnown":false}
-];
-
 const id = new URLSearchParams(location.search).get("id");
-const p = window.SEED_PRODUCTS.find(x => x.id === id) || window.SEED_PRODUCTS[0];
+const products = window.TFR_PRODUCTS || [];
+const p = products.find(x => x.id === id) || products[0];
 
-document.title = `The Fish Room | ${p.name}`;
-document.getElementById("crumb").textContent = p.name;
+if (!p) {
+  document.getElementById("detail").innerHTML = '<div class="empty">No hay productos disponibles.</div>';
+} else {
+  document.title = `The Fish Room | ${p.name}`;
+  document.getElementById("crumb").textContent = p.name;
 
-const wa = "https://wa.me/34612412469?text=" + encodeURIComponent(
-  "Hola The Fish Room, me interesa " + p.name + ". ¿Sigue disponible?"
-);
+  const stock = Number(p.stock);
+  const stockClass = stock > 0 ? (stock <= 2 ? "low" : "ok") : "off";
+  const stockText = stock > 0 ? (stock <= 2 ? `Últimas ${stock}` : "Consultar disponibilidad") : "Agotado";
 
-document.getElementById("detail").innerHTML = `
-  <div class="detail-image"><img src="${p.image}" alt="${p.name}"></div>
-  <div class="detail-copy">
-    <span class="tag">${p.category.toUpperCase()}</span>
-    <h1>${p.name}</h1>
-    <p class="detail-desc">${p.description}</p>
-    <div class="detail-price">${p.price.toFixed(2).replace(".",",")} € <small>/ ${p.unit}</small></div>
-    <div class="detail-stock ok">● Consultar disponibilidad</div>
-    <div class="detail-note">Las cantidades de animales vivos se confirman antes de cerrar el pedido.</div>
-    <div class="detail-actions">
-      <button class="btn" onclick="addCart('${p.id}')">🛒 Añadir al carrito</button>
-      <button class="btn ghost" onclick="reserve()">⏱️ Solicitar reserva 24 h</button>
-      <a class="btn ghost" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp</a>
-      <button class="btn ghost" type="button" onclick="openCart()">🛒 Ver carrito</button>
+  const wa = "https://wa.me/34612412469?text=" + encodeURIComponent(
+    "Hola The Fish Room, me interesa " + p.name + ". ¿Sigue disponible?"
+  );
+
+  document.getElementById("detail").innerHTML = `
+    <div class="detail-image"><img src="${p.image}" alt="${p.name}"></div>
+    <div class="detail-copy">
+      <span class="tag">${p.category.toUpperCase()}</span>
+      <h1>${p.name}</h1>
+      <p class="detail-desc">${p.description}</p>
+      <div class="detail-price">${Number(p.price).toFixed(2).replace(".",",")} € <small>/ ${p.unit || "unidad"}</small></div>
+      <div class="detail-stock ${stockClass}">● ${stockText}</div>
+      <div class="detail-note">Las cantidades de animales vivos se confirman antes de cerrar el pedido.</div>
+      <div class="detail-actions">
+        <button class="btn" ${stockClass === "off" ? "disabled" : ""} onclick="addCart('${p.id}')">🛒 Añadir al carrito</button>
+        <button class="btn ghost" onclick="reserve()">⏱️ Solicitar reserva 24 h</button>
+        <a class="btn ghost" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <button class="btn ghost" type="button" onclick="openCart()">🛒 Ver carrito</button>
+      </div>
+      <div class="detail-info">
+        <div><b>Recogida</b><span>En tienda · Santa María de Guía</span></div>
+        <div><b>Pagos</b><span>Online y en tienda cuando el sistema esté conectado</span></div>
+        <div><b>Atención</b><span>612 412 469 · @thefishroomm</span></div>
+      </div>
     </div>
-    <div class="detail-info">
-      <div><b>Recogida</b><span>En tienda · Santa María de Guía</span></div>
-      <div><b>Pagos</b><span>Online y en tienda cuando el sistema esté conectado</span></div>
-      <div><b>Atención</b><span>612 412 469 · @thefishroomm</span></div>
-    </div>
-  </div>
-`;
+  `;
 
-function reserve() {
-  const reservations = JSON.parse(localStorage.getItem("tfr_reservations") || "[]");
-  reservations.push({
-    id: p.id,
-    name: p.name,
-    createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString()
-  });
-  localStorage.setItem("tfr_reservations", JSON.stringify(reservations));
+  function reserve() {
+    const reservations = JSON.parse(localStorage.getItem("tfr_reservations") || "[]");
+    reservations.push({
+      id: p.id, name: p.name,
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString()
+    });
+    localStorage.setItem("tfr_reservations", JSON.stringify(reservations));
+    location.href = "https://wa.me/34612412469?text=" + encodeURIComponent(
+      "Hola The Fish Room, quiero reservar durante 24 horas: " + p.name + "."
+    );
+  }
+  window.reserve = reserve;
 
-  const text = "Hola The Fish Room, quiero reservar durante 24 horas: " + p.name + ".";
-  location.href = "https://wa.me/34612412469?text=" + encodeURIComponent(text);
-}
-
-const related = window.SEED_PRODUCTS.filter(x => x.category === p.category && x.id !== p.id).slice(0,3);
-document.getElementById("related").innerHTML = related.length
-  ? `<div class="section-head center">
-      <span class="eyebrow">TAMBIÉN TE PUEDE INTERESAR</span>
-      <h2>Productos relacionados</h2>
-    </div>
+  const related = products.filter(x => x.category === p.category && x.id !== p.id).slice(0,3);
+  document.getElementById("related").innerHTML = related.length ? `
+    <div class="section-head center"><span class="eyebrow">TAMBIÉN TE PUEDE INTERESAR</span><h2>Productos relacionados</h2></div>
     <div class="products">
       ${related.map(x => `
         <article class="product">
-          <div class="photo" style="background-image:url('${x.image}')"></div>
+          <a class="photo" href="producto.html?id=${encodeURIComponent(x.id)}" style="background-image:url('${x.image}')"></a>
           <div class="pbody">
             <span class="tag">${x.category.toUpperCase()}</span>
             <h3>${x.name}</h3>
-            <div class="price-row">
-              <span class="price">${x.price.toFixed(2).replace(".",",")} € / ${x.unit}</span>
-            </div>
-            <a class="btn ghost" style="margin-top:12px;width:100%;text-align:center"
-               href="producto.html?id=${x.id}">Ver producto</a>
+            <div class="price-row"><span class="price">${Number(x.price).toFixed(2).replace(".",",")} € / ${x.unit || "unidad"}</span></div>
+            <a class="btn ghost" style="margin-top:12px;width:100%;text-align:center" href="producto.html?id=${encodeURIComponent(x.id)}">Ver producto</a>
           </div>
         </article>
       `).join("")}
-    </div>`
-  : "";
+    </div>` : "";
+}
 </script>
-
 <script src="app.js"></script>
 </body>
 </html>
