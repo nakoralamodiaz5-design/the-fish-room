@@ -14,7 +14,7 @@
     <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a><a href="categoria.html?c=Material">Material</a>
     <a href="index.html#servicios">Servicios</a><a href="index.html#ofertas">Ofertas</a><a href="index.html#contacto">Contacto</a>
   </nav>
-  <div class="head-actions"><a class="iconbtn" href="index.html">🏠</a><a class="iconbtn" href="index.html#contacto">💬</a></div>
+  <div class="head-actions"><a class="iconbtn" href="index.html">🏠</a><a class="iconbtn" href="index.html#peces">🛒 <b id="cartCount">0</b></a><a class="iconbtn" href="index.html#contacto">💬</a></div>
 </header>
 <section class="category-hero">
  <span class="eyebrow">THE FISH ROOM</span><h1 id="catTitle">Categoría</h1><p id="catDesc"></p>
@@ -37,6 +37,10 @@ document.getElementById("catDesc").textContent=meta[cat]?.[1]||"Productos de The
 const map={Material:"__MATERIAL__"};
 let arr=products.filter(p=>p.category===cat);
 if(cat==="Material" || cat==="Estanques") arr=[];
-document.getElementById("products").innerHTML=arr.length?arr.map(p=>`<article class="product"><div class="photo" style="background-image:url('${p.image}')"></div><div class="pbody"><span class="tag">${p.category.toUpperCase()}</span><h3><a href="producto.html?id=${p.id}">${p.name}</a></h3><p class="desc">${p.description}</p><div class="price-row"><span class="price">${p.price.toFixed(2).replace(".",",")} € / ${p.unit}</span><span class="stock ok">Consultar disponibilidad</span></div><div class="pactions"><a class="buy" style="display:block;text-align:center;padding:9px;border-radius:9px" href="https://wa.me/34612412469?text=${encodeURIComponent("Hola The Fish Room, me interesa "+p.name+". ¿Sigue disponible?")}" target="_blank">💬 Consultar</a></div></div></article>`).join(""):`<div class="empty">Todavía no hay productos publicados en esta categoría. Los iremos añadiendo desde el catálogo.</div>`;
+updateCartLink();
+document.getElementById("products").innerHTML=arr.length?arr.map(p=>`<article class="product"><div class="photo" style="background-image:url('${p.image}')"></div><div class="pbody"><span class="tag">${p.category.toUpperCase()}</span><h3><a href="producto.html?id=${p.id}">${p.name}</a></h3><p class="desc">${p.description}</p><div class="price-row"><span class="price">${p.price.toFixed(2).replace(".",",")} € / ${p.unit}</span><span class="stock ok">Consultar disponibilidad</span></div><div class="pactions">
+      <button class="buy" onclick="addCart('${p.id}')">🛒 Añadir</button>
+      <a class="fav" style="display:block;text-align:center;padding:9px;border-radius:9px" href="https://wa.me/34612412469?text=${encodeURIComponent("Hola The Fish Room, me interesa "+p.name+". ¿Sigue disponible?")}" target="_blank">💬 WhatsApp</a>
+    </div></div></article>`).join(""):`<div class="empty">Todavía no hay productos publicados en esta categoría. Los iremos añadiendo desde el catálogo.</div>`;
 </script>
 </body></html>

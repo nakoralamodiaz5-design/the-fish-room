@@ -15,7 +15,7 @@
     <a href="categoria.html?c=Bettas">Peces</a><a href="categoria.html?c=Plantas">Plantas</a>
     <a href="categoria.html?c=Material">Material</a><a href="index.html#servicios">Servicios</a><a href="index.html#contacto">Contacto</a>
   </nav>
-  <div class="head-actions"><a class="iconbtn" href="index.html#peces">🛒 Tienda</a></div>
+  <div class="head-actions"><a class="iconbtn" href="index.html#peces">🛒 Tienda</a><a class="iconbtn" href="index.html#peces">🛒 <b id="cartCount">0</b></a></div>
 </header>
 
 <main class="detail-page">
@@ -45,9 +45,9 @@ document.getElementById("detail").innerHTML = `
     <div class="detail-stock ${stockClass}">● ${stockText}</div>
     <div class="detail-note">Las cantidades de animales vivos se confirman antes de cerrar el pedido.</div>
     <div class="detail-actions">
-      <button class="btn" onclick="addCart('${p.id}')">🛒 Añadir a favoritos/cesta</button>
+      <button class="btn" onclick="addCart('${p.id}')">🛒 Añadir al carrito</button>
       <button class="btn ghost" onclick="reserve()">⏱️ Solicitar reserva 24 h</button>
-      <a class="btn ghost" href="${wa}" target="_blank">💬 WhatsApp</a>
+      <a class="btn ghost" href="${wa}" target="_blank">💬 WhatsApp</a><a class="btn ghost" href="index.html#peces">🛒 Ver carrito</a>
     </div>
     <div class="detail-info">
       <div><b>Recogida</b><span>En tienda · Santa María de Guía</span></div>
@@ -58,11 +58,11 @@ document.getElementById("detail").innerHTML = `
 `;
 
 function addCart(id){
-  let cart = JSON.parse(localStorage.getItem("tfr_cart")||"[]");
-  const found = cart.find(x=>x.id===id);
-  if(found) found.qty++;
-  else cart.push({id,qty:1});
+  let cart=JSON.parse(localStorage.getItem("tfr_cart")||"[]");
+  const found=cart.find(x=>x.id===id);
+  if(found)found.qty++;else cart.push({id,qty:1});
   localStorage.setItem("tfr_cart",JSON.stringify(cart));
+  const c=document.getElementById("cartCount"); if(c)c.textContent=cart.reduce((a,x)=>a+x.qty,0);
   alert("Producto añadido al carrito.");
 }
 function reserve(){
