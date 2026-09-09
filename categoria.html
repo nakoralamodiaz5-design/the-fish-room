@@ -3,17 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Fish Room | Categoría</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<title>The Fish Room | Catálogo</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.category-hero{padding:65px 6%;background:linear-gradient(110deg,#041a24,#062d3a);border-bottom:1px solid #144655}
-.category-hero h1{font-size:46px;margin:9px 0 8px}
-.category-hero p{color:#a8c0c7;max-width:700px;line-height:1.6}
+.category-hero{padding:58px 6%;background:linear-gradient(110deg,#041a24,#062d3a);border-bottom:1px solid #144655}
+.category-hero h1{font-size:46px;margin:8px 0}
+.category-hero p{color:#abc1c8;max-width:720px}
+.product .photo img{width:100%;height:100%;object-fit:cover;display:block}
 .pactions{display:flex;gap:8px;flex-wrap:wrap}
-.pactions .buy,.pactions .fav{flex:1;min-width:120px}
+.pactions>*{flex:1}
 </style>
 </head>
 <body>
@@ -22,91 +20,253 @@
   <nav class="nav">
     <a href="categoria.html?c=Bettas">Peces</a>
     <a href="categoria.html?c=Plantas">Plantas</a>
-    <a href="categoria.html?c=Material">Material</a>
+    <a href="categoria.html?c=Cíclidos">Cíclidos</a>
+    <a href="index.html#equipamiento">Material</a>
     <a href="index.html#servicios">Servicios</a>
-    <a href="index.html#ofertas">Ofertas</a>
     <a href="index.html#contacto">Contacto</a>
   </nav>
   <div class="head-actions">
     <a class="iconbtn" href="index.html">🏠</a>
-    <a class="iconbtn" href="index.html#peces">🛒 <b id="cartCount">0</b></a>
-    <a class="iconbtn" href="index.html#contacto">💬</a>
+    <button class="iconbtn" type="button" onclick="openCart()">🛒 <b id="cartCount">0</b></button>
   </div>
 </header>
 
 <section class="category-hero">
-  <span class="eyebrow">THE FISH ROOM</span>
-  <h1 id="catTitle">Categoría</h1>
-  <p id="catDesc"></p>
+  <span class="eyebrow">THE FISH ROOM · CATÁLOGO</span>
+  <h1 id="title">Categoría</h1>
+  <p id="desc"></p>
 </section>
 
-<section class="section shop">
-  <div class="products" id="products"></div>
+<section class="section">
+  <div class="chips">
+    <button class="chip" onclick="location.href='categoria.html?c=Bettas'">Bettas</button>
+    <button class="chip" onclick="location.href='categoria.html?c=Guppys'">Guppys</button>
+    <button class="chip" onclick="location.href='categoria.html?c=Cíclidos'">Cíclidos</button>
+    <button class="chip" onclick="location.href='categoria.html?c=Plantas'">Plantas</button>
+  </div>
+  <div class="products" id="products">
+<article class="product" data-category="Bettas">
+  <div class="photo"><img src="betta-koi-hembra.webp" alt="Betta Koi Hembra"></div>
+  <div class="pbody">
+    <span class="tag">BETTAS</span>
+    <h3><a href="producto.html?id=betta-koi-hembra">Betta Koi Hembra</a></h3>
+    <p class="desc">Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room.</p>
+    <div class="price-row">
+      <span class="price">25,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('betta-koi-hembra')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Betta%20Koi%20Hembra.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Guppys">
+  <div class="photo"><img src="guppy-variado.webp" alt="Guppy Variado"></div>
+  <div class="pbody">
+    <span class="tag">GUPPYS</span>
+    <h3><a href="producto.html?id=guppy-variado">Guppy Variado</a></h3>
+    <p class="desc">Guppy variado. Disponibilidad y color según stock actual.</p>
+    <div class="price-row">
+      <span class="price">3,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('guppy-variado')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Guppy%20Variado.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Bettas">
+  <div class="photo"><img src="betta-corona.webp" alt="Betta Corona"></div>
+  <div class="pbody">
+    <span class="tag">BETTAS</span>
+    <h3><a href="producto.html?id=betta-corona">Betta Corona</a></h3>
+    <p class="desc">Betta Corona con coloración azul y roja.</p>
+    <div class="price-row">
+      <span class="price">20,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('betta-corona')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Betta%20Corona.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Cíclidos">
+  <div class="photo"><img src="ciclidos-varios.webp" alt="Cíclidos Varios"></div>
+  <div class="pbody">
+    <span class="tag">CÍCLIDOS</span>
+    <h3><a href="producto.html?id=ciclidos-varios">Cíclidos Varios</a></h3>
+    <p class="desc">Selección de cíclidos disponibles según disponibilidad.</p>
+    <div class="price-row">
+      <span class="price">10,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('ciclidos-varios')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20C%C3%ADclidos%20Varios.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Cíclidos">
+  <div class="photo"><img src="polar-blue.webp" alt="Polar Blue"></div>
+  <div class="pbody">
+    <span class="tag">CÍCLIDOS</span>
+    <h3><a href="producto.html?id=polar-blue">Polar Blue</a></h3>
+    <p class="desc">Polar Blue para acuario de cíclidos. Consultar compatibilidad.</p>
+    <div class="price-row">
+      <span class="price">5,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('polar-blue')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Polar%20Blue.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Plantas">
+  <div class="photo"><img src="christmas-moss.webp" alt="Christmas Moss"></div>
+  <div class="pbody">
+    <span class="tag">PLANTAS</span>
+    <h3><a href="producto.html?id=christmas-moss">Christmas Moss</a></h3>
+    <p class="desc">Christmas Moss — 5 € por tarro.</p>
+    <div class="price-row">
+      <span class="price">5,00 € / tarro</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('christmas-moss')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Christmas%20Moss.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Plantas">
+  <div class="photo"><img src="lemna-minor.webp" alt="Lemna minor"></div>
+  <div class="pbody">
+    <span class="tag">PLANTAS</span>
+    <h3><a href="producto.html?id=lemna-minor">Lemna minor</a></h3>
+    <p class="desc">Lemna minor — 2 € por tarrina.</p>
+    <div class="price-row">
+      <span class="price">2,00 € / tarrina</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('lemna-minor')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Lemna%20minor.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Plantas">
+  <div class="photo"><img src="salvinia-natans.webp" alt="Salvinia natans"></div>
+  <div class="pbody">
+    <span class="tag">PLANTAS</span>
+    <h3><a href="producto.html?id=salvinia-natans">Salvinia natans</a></h3>
+    <p class="desc">Salvinia natans / acordeón de agua — 3 € por tarrina.</p>
+    <div class="price-row">
+      <span class="price">3,00 € / tarrina</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('salvinia-natans')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Salvinia%20natans.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+
+<article class="product" data-category="Bettas">
+  <div class="photo"><img src="betta-rosa-hembra.webp" alt="Betta Rosa Hembra"></div>
+  <div class="pbody">
+    <span class="tag">BETTAS</span>
+    <h3><a href="producto.html?id=betta-rosa-hembra">Betta Rosa Hembra</a></h3>
+    <p class="desc">Betta rosa hembra. Ejemplar mostrado en fotografía propia.</p>
+    <div class="price-row">
+      <span class="price">10,00 € / unidad</span>
+      <span class="stock ok">Consultar disponibilidad</span>
+    </div>
+    <div class="pactions">
+      <button class="buy" onclick="addToCart('betta-rosa-hembra')">🛒 Añadir</button>
+      <a class="fav" href="https://wa.me/34612412469?text=Hola%20The%20Fish%20Room%2C%20me%20interesa%20Betta%20Rosa%20Hembra.%20%C2%BFSigue%20disponible%3F" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</article>
+</div>
 </section>
+
+<div id="drawer" class="drawer">
+  <div class="drawer-card">
+    <button class="close" onclick="closeCart()">✕</button>
+    <h2>🛒 Tu carrito</h2>
+    <div id="cartBody"></div>
+  </div>
+</div>
 
 <script>
-const products = [{"id": "betta-koi-hembra", "name": "Betta Koi Hembra", "category": "Bettas", "price": 25, "stock": 1, "unit": "unidad", "image": "betta-koi-hembra.webp", "description": "Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room.", "featured": true}, {"id": "guppy-variado", "name": "Guppy Variado", "category": "Guppys", "price": 3, "stock": 10, "unit": "unidad", "image": "guppy-variado.webp", "description": "Guppy variado. Disponibilidad y color según stock actual.", "featured": true}, {"id": "betta-corona", "name": "Betta Corona", "category": "Bettas", "price": 20, "stock": 1, "unit": "unidad", "image": "betta-corona.webp", "description": "Betta Corona con coloración azul y roja.", "featured": true}, {"id": "ciclidos-varios", "name": "Cíclidos Varios", "category": "Cíclidos", "price": 10, "stock": 10, "unit": "unidad", "image": "ciclidos-varios.webp", "description": "Selección de cíclidos disponibles según stock.", "featured": false}, {"id": "polar-blue", "name": "Polar Blue", "category": "Cíclidos", "price": 5, "stock": 10, "unit": "unidad", "image": "polar-blue.webp", "description": "Polar Blue para acuario de cíclidos. Consultar compatibilidad.", "featured": true}, {"id": "christmas-moss", "name": "Christmas Moss", "category": "Plantas", "price": 5, "stock": 10, "unit": "tarro", "image": "christmas-moss.webp", "description": "Christmas Moss — 5 € por tarro.", "featured": false}, {"id": "lemna-minor", "name": "Lemna minor", "category": "Plantas", "price": 2, "stock": 10, "unit": "tarrina", "image": "lemna-minor.webp", "description": "Lemna minor — 2 € por tarrina.", "featured": false}, {"id": "salvinia-natans", "name": "Salvinia natans", "category": "Plantas", "price": 3, "stock": 10, "unit": "tarrina", "image": "salvinia-natans.webp", "description": "Salvinia natans / acordeón de agua — 3 € por tarrina.", "featured": false}, {"id": "betta-rosa-hembra", "name": "Betta Rosa Hembra", "category": "Bettas", "price": 10, "stock": 1, "unit": "unidad", "image": "betta-rosa-hembra.webp", "description": "Betta rosa hembra. Ejemplar mostrado en fotografía propia.", "featured": false}];
-
-function updateCartLink() {
-  const cart = JSON.parse(localStorage.getItem("tfr_cart") || "[]");
-  const count = cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
-  const el = document.getElementById("cartCount");
-  if (el) el.textContent = count;
-}
-
-function addCart(id) {
-  const product = products.find(p => p.id === id);
-  if (!product || product.status === "agotado") return;
-
-  const cart = JSON.parse(localStorage.getItem("tfr_cart") || "[]");
-  const line = cart.find(item => item.id === id);
-
-  if (line) line.qty = Number(line.qty || 0) + 1;
-  else cart.push({ id, qty: 1 });
-
-  localStorage.setItem("tfr_cart", JSON.stringify(cart));
-  updateCartLink();
-  alert("Producto añadido al carrito.");
-}
-
-const params = new URLSearchParams(location.search);
-const cat = params.get("c") || "Bettas";
+const PRODUCTS = [{"id": "betta-koi-hembra", "name": "Betta Koi Hembra", "category": "Bettas", "price": 25.0, "unit": "unidad", "image": "betta-koi-hembra.webp", "description": "Betta Koi hembra. Ejemplar mostrado en fotografía propia de The Fish Room."}, {"id": "guppy-variado", "name": "Guppy Variado", "category": "Guppys", "price": 3.0, "unit": "unidad", "image": "guppy-variado.webp", "description": "Guppy variado. Disponibilidad y color según stock actual."}, {"id": "betta-corona", "name": "Betta Corona", "category": "Bettas", "price": 20.0, "unit": "unidad", "image": "betta-corona.webp", "description": "Betta Corona con coloración azul y roja."}, {"id": "ciclidos-varios", "name": "Cíclidos Varios", "category": "Cíclidos", "price": 10.0, "unit": "unidad", "image": "ciclidos-varios.webp", "description": "Selección de cíclidos disponibles según disponibilidad."}, {"id": "polar-blue", "name": "Polar Blue", "category": "Cíclidos", "price": 5.0, "unit": "unidad", "image": "polar-blue.webp", "description": "Polar Blue para acuario de cíclidos. Consultar compatibilidad."}, {"id": "christmas-moss", "name": "Christmas Moss", "category": "Plantas", "price": 5.0, "unit": "tarro", "image": "christmas-moss.webp", "description": "Christmas Moss — 5 € por tarro."}, {"id": "lemna-minor", "name": "Lemna minor", "category": "Plantas", "price": 2.0, "unit": "tarrina", "image": "lemna-minor.webp", "description": "Lemna minor — 2 € por tarrina."}, {"id": "salvinia-natans", "name": "Salvinia natans", "category": "Plantas", "price": 3.0, "unit": "tarrina", "image": "salvinia-natans.webp", "description": "Salvinia natans / acordeón de agua — 3 € por tarrina."}, {"id": "betta-rosa-hembra", "name": "Betta Rosa Hembra", "category": "Bettas", "price": 10.0, "unit": "unidad", "image": "betta-rosa-hembra.webp", "description": "Betta rosa hembra. Ejemplar mostrado en fotografía propia."}];
 const meta = {
-  Bettas:["Bettas","Betta Koi, Corona, Rosa y nuevas variedades."],
-  Guppys:["Guppys","Guppys variados y nuevas líneas según disponibilidad."],
+  "Bettas":["Bettas","Betta Koi, Corona, Rosa y nuevas variedades."],
+  "Guppys":["Guppys","Guppys variados y nuevas líneas según disponibilidad."],
   "Cíclidos":["Cíclidos","Polar Blue y otras variedades de cíclidos."],
-  Plantas:["Plantas","Plantas naturales, musgos y plantas flotantes."],
-  Material:["Material y accesorios","Filtración, iluminación, calentadores, decoración y más."],
-  Estanques:["Estanques","Peces, plantas, alimentación y material para estanques."]
+  "Plantas":["Plantas","Plantas naturales, musgos y flotantes."],
+  "Material":["Material y accesorios","Filtración, iluminación, calentadores, decoración y más."]
 };
+const category = new URLSearchParams(location.search).get("c") || "Bettas";
+document.getElementById("title").textContent = meta[category]?.[0] || category;
+document.getElementById("desc").textContent = meta[category]?.[1] || "Productos de The Fish Room.";
 
-document.getElementById("catTitle").textContent = meta[cat]?.[0] || cat;
-document.getElementById("catDesc").textContent = meta[cat]?.[1] || "Productos de The Fish Room.";
+document.querySelectorAll(".product").forEach(card => {
+  card.style.display = card.dataset.category === category ? "" : "none";
+});
 
-const arr = products.filter(p => p.category === cat);
-
-document.getElementById("products").innerHTML = arr.length
-  ? arr.map(p => `
-    <article class="product">
-      <div class="photo" style="background-image:url('${p.image}')"></div>
-      <div class="pbody">
-        <span class="tag">${p.category.toUpperCase()}</span>
-        <h3><a href="producto.html?id=${p.id}">${p.name}</a></h3>
-        <p class="desc">${p.description}</p>
-        <div class="price-row">
-          <span class="price">${p.price.toFixed(2).replace(".",",")} € / ${p.unit}</span>
-          <span class="stock ${p.status === "agotado" ? "off" : "ok"}">${p.status === "agotado" ? "Agotado" : "Consultar disponibilidad"}</span>
-        </div>
-        <div class="pactions">
-          <button class="buy" onclick="addCart('${p.id}')">🛒 Añadir</button>
-          <a class="fav" href="https://wa.me/34612412469?text=${encodeURIComponent("Hola The Fish Room, me interesa " + p.name + ". ¿Sigue disponible?")}" target="_blank">💬 WhatsApp</a>
-        </div>
-      </div>
-    </article>
-  `).join("")
-  : '<div class="empty">Todavía no hay productos publicados en esta categoría.</div>';
-
-updateCartLink();
+function getCart() {
+  return JSON.parse(localStorage.getItem("tfr_cart") || "[]");
+}
+function saveCart(cart) {
+  localStorage.setItem("tfr_cart", JSON.stringify(cart));
+}
+function updateCartCount() {
+  document.getElementById("cartCount").textContent =
+    getCart().reduce((s,x)=>s+Number(x.qty||0),0);
+}
+function addToCart(id) {
+  const cart=getCart();
+  const line=cart.find(x=>x.id===id);
+  if(line) line.qty++;
+  else cart.push({id,qty:1});
+  saveCart(cart);
+  updateCartCount();
+  openCart();
+}
+function removeLine(id) {
+  saveCart(getCart().filter(x=>x.id!==id));
+  updateCartCount();
+  openCart();
+}
+function closeCart() { document.getElementById("drawer").classList.remove("show"); }
+function openCart() {
+  const cart=getCart();
+  const body=document.getElementById("cartBody");
+  if(!cart.length) {
+    body.innerHTML='<div class="empty">Tu carrito está vacío.</div>';
+  } else {
+    let total=0;
+    body.innerHTML=cart.map(line=>{
+      const p=PRODUCTS.find(x=>x.id===line.id);
+      if(!p) return "";
+      total+=p.price*line.qty;
+      return `<div class="drawer-item"><img src="${p.image}" alt="${p.name}"><div><b>${p.name}</b><div>${line.qty} × ${p.price.toFixed(2)} €</div></div><button onclick="removeLine('${p.id}')">✕</button></div>`;
+    }).join("")+`<div class="drawer-summary"><div class="drawer-total">Total: ${total.toFixed(2)} €</div><a class="btn" style="display:block;text-align:center;margin-top:14px" href="checkout.html">Continuar al pedido</a></div>`;
+  }
+  document.getElementById("drawer").classList.add("show");
+}
+updateCartCount();
 </script>
 </body>
 </html>
