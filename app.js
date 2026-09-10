@@ -1,5 +1,5 @@
 const TFR={sb:window.supabase.createClient(window.TFR_SUPABASE_URL,window.TFR_SUPABASE_PUBLISHABLE_KEY),products:[],cart:JSON.parse(localStorage.getItem('tfr_cart')||'[]'),favs:JSON.parse(localStorage.getItem('tfr_favs')||'[]')};
-const $=s=>document.querySelector(s);let activeCategory='Todos';
+const $=s=>document.querySelector(s);let activeCategory=window.TFR_CATEGORY||'Todos';
 function saveCart(){localStorage.setItem('tfr_cart',JSON.stringify(TFR.cart))}function saveFavs(){localStorage.setItem('tfr_favs',JSON.stringify(TFR.favs))}
 function stockState(p){const n=Number(p.stock||0);return n<=0?{text:'Agotado',cls:'off'}:n<=2?{text:`Últimas ${n}`,cls:'low'}:{text:'Disponible',cls:'ok'}}
 async function loadProducts(){const r=await TFR.sb.from('products').select('id,name,category,price,stock,unit,image,description,featured').eq('active',true).order('featured',{ascending:false}).order('name',{ascending:true});if(!r.error&&Array.isArray(r.data)){TFR.products=r.data;localStorage.setItem('tfr_products_cache',JSON.stringify(r.data));return}try{const c=JSON.parse(localStorage.getItem('tfr_products_cache')||'[]');TFR.products=c.length?c:(window.TFR_FALLBACK_PRODUCTS||[])}catch{TFR.products=window.TFR_FALLBACK_PRODUCTS||[]}}
